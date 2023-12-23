@@ -55,5 +55,7 @@ Measurment abbreviations and symbols have a specific case. I.e. `Gpbs`, `Hz`, `k
 
 ## WinForms Application
 
-There is also a WinForms Application:
+There is also a WinForms application available:
+
+![Screenshot](https://github.com/jamesbrindle/ProperTitleCase/blob/master/TitleCaser/screenshot.png?raw=true)
 
