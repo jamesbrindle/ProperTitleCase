@@ -176,6 +176,9 @@ namespace TitleCaser.Business
             // Converts emails to lowercase.
             if (IsEmail(word)) return word.ToLower();
 
+            // Converts URL web addresses to lowercase.
+            if (IsUrl(word)) return word.ToLower();
+
             // Converts ordinal numbers to lowercase.
             if (IsOrdinalNumber(word)) return word.ToLower();
 
@@ -292,7 +295,13 @@ namespace TitleCaser.Business
         // Checks if the provided word is an email address.
         private static bool IsEmail(string word)
         {
-            return Lookups.RegularExpression.EmailRegex.IsMatch(word);
+            return Lookups.RegularExpression.Email.IsMatch(word);
+        }
+
+        // Checks if the provided word is a URL web address
+        private static bool IsUrl(string word)
+        {
+            return Lookups.RegularExpression.Url.IsMatch(word);
         }
 
         // Checks if the provided word is an ordinal number (e.g., 1st, 2nd).
@@ -510,9 +519,9 @@ namespace TitleCaser.Business
             internal static class RegularExpression
             {
                 internal static readonly string MeasurmentRecognition = @"(?<!\w)(\d+(\.\d+)?)\s?([a-zA-Z²³]+)";
-
+                internal static readonly Regex Url = new Regex(@"(?i)(\b(?:https?|ftp|ftps|sftp|mailto|telnet|ssh|ldap|gopher|news|nntp|tel|ircs?|mms|rtsp|xmpp|sip|file|ws):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])");
                 internal static readonly Regex OrdinalNumber = new Regex(@"\b(1st|2nd|3rd|([4-9]|0)th|[1-9]\d{1,}th)\b");
-                internal static readonly Regex EmailRegex = new Regex(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+                internal static readonly Regex Email = new Regex(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
             }
 
             internal static string SpecialCharacters = "¬!\"£$%^&*() _+`-=[]{};'#:@~,./<>?\\|";
