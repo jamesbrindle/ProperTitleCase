@@ -19,9 +19,9 @@ namespace TitleCase.Helpers
             }
         }
 
-       /// <summary>
-       /// I.e. .csv, .tsv
-       /// </summary>
+        /// <summary>
+        /// I.e. .csv, .tsv
+        /// </summary>
         public static string[] Csv
         {
             get
@@ -31,6 +31,6 @@ namespace TitleCase.Helpers
 
                 return ext.Concat(extNoDot).ToArray();
             }
-        }   
+        }
     }
 }

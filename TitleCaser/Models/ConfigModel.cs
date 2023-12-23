@@ -13,7 +13,7 @@ namespace TitleCaser.Models
         /// </summary>
         public ConfigModel()
         { }
-        
+
         public string Titles { get; set; }
 
         public string AdditionalAbbreviations { get; set; }
