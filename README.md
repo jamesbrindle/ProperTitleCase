@@ -50,5 +50,10 @@ Measurment abbreviations and symbols have a specific case. I.e. `Gpbs`, `Hz`, `k
 
 * When something contains letters and number, or a mixure of special characters, they will be converted to all upercase. E.g. `293GH-34-IP-1A`
 * It will pay attention to pleural abbreviations. E.g. `CSV's` or `CSVs`
-* It will try to work out an abbreviation not in the list of common abbreviatioins, by also looking up a real work UK dictionary (up to four letters or less).
+* It will try to work out an abbreviation not in the list of common abbreviatioins, by also looking up a real UK dictionary (up to four letters or less).
   For example. The word 'svs' in not in the list of common abbreviatioins, but it's also not a real English word and it's 4 characters or less, so will be treated an an abbreviation and convert to uppercase.
+
+## WinForms Application
+
+There is also a WinForms Application:
+

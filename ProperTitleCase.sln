@@ -3,12 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProperTitleCase", "ProperTitleCase\ProperTitleCase.csproj", "{B949B054-2F99-486B-A147-01AA235032FA}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "README.md", "README.md", "{4DBE863A-DBDB-42D9-B3AD-0497FD578F64}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TitleCase.Business", "ProperTitleCase.Business\TitleCase.Business.csproj", "{B949B054-2F99-486B-A147-01AA235032FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TitleCaser", "TitleCaser\TitleCaser.csproj", "{521DE121-BB94-4857-B3DD-4789896F087A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +22,10 @@ Global
 		{B949B054-2F99-486B-A147-01AA235032FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B949B054-2F99-486B-A147-01AA235032FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B949B054-2F99-486B-A147-01AA235032FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{521DE121-BB94-4857-B3DD-4789896F087A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{521DE121-BB94-4857-B3DD-4789896F087A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{521DE121-BB94-4857-B3DD-4789896F087A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{521DE121-BB94-4857-B3DD-4789896F087A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
