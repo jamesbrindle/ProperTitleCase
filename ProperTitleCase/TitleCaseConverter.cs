@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace ProperTitleCase
 {
     /// <summary>
-    /// Class providing functions for advanced 'Title Case' string conversion
+    /// Class providing functions for advanced 'Title Case' string conversion.
     /// </summary>
     public static class TitleCaseConverter
     {
