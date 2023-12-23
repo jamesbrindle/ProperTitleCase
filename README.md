@@ -23,16 +23,16 @@ foreach (var title in processedTitles)
 
 ## Parameters
 
-additionalAbbreviations (List<string>)
-lookupCommonAbbreviations (boolean)
-keepTypicalAllLowers (boolean)
-formatMeasurements (boolean)
+* additionalAbbreviations (List<string>)
+* lookupCommonAbbreviations (boolean)
+* keepTypicalAllLowers (boolean)
+* formatMeasurements (boolean)
 
 ### Additional Abbreviations
 
 Suppier your own list of abbreviations to ensure the proper case
 
-## Lookup Common Abbreviations
+### Lookup Common Abbreviations
 
 There is a large list of common abbreviations set-up alread and it will use them by default. You can set this to false to not use them.
 
