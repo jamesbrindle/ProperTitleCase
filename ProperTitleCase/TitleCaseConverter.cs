@@ -479,7 +479,6 @@ namespace ProperTitleCase
                 "at",
                 "but",
                 "by",
-                "down",
                 "for",
                 "from",
                 "if",
