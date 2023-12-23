@@ -67,7 +67,7 @@
             this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.65461F));
             this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.34539F));
-            this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
+            this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 16F));
             this.tblLayout.Controls.Add(this.gpOptions, 3, 3);
             this.tblLayout.Controls.Add(this.pnlTitles, 1, 0);
             this.tblLayout.Controls.Add(this.pnlAdditionalAbbr, 3, 0);
@@ -97,7 +97,7 @@
             this.gpOptions.Controls.Add(this.cbTyicalLowercase);
             this.gpOptions.Controls.Add(this.cbMeasurements);
             this.gpOptions.Controls.Add(this.cbCommonAbbr);
-            this.gpOptions.Location = new System.Drawing.Point(539, 314);
+            this.gpOptions.Location = new System.Drawing.Point(538, 314);
             this.gpOptions.Margin = new System.Windows.Forms.Padding(1, 3, 1, 1);
             this.gpOptions.Name = "gpOptions";
             this.gpOptions.Padding = new System.Windows.Forms.Padding(0);
@@ -179,7 +179,7 @@
             this.pnlTitles.Location = new System.Drawing.Point(15, 0);
             this.pnlTitles.Margin = new System.Windows.Forms.Padding(0);
             this.pnlTitles.Name = "pnlTitles";
-            this.pnlTitles.Size = new System.Drawing.Size(508, 59);
+            this.pnlTitles.Size = new System.Drawing.Size(507, 59);
             this.pnlTitles.TabIndex = 3;
             // 
             // pbPreloader
@@ -209,7 +209,7 @@
             // 
             this.pnlAdditionalAbbr.Controls.Add(this.lblAdditionalAbbr);
             this.pnlAdditionalAbbr.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlAdditionalAbbr.Location = new System.Drawing.Point(538, 0);
+            this.pnlAdditionalAbbr.Location = new System.Drawing.Point(537, 0);
             this.pnlAdditionalAbbr.Margin = new System.Windows.Forms.Padding(0);
             this.pnlAdditionalAbbr.Name = "pnlAdditionalAbbr";
             this.pnlAdditionalAbbr.Size = new System.Drawing.Size(388, 59);
@@ -235,7 +235,7 @@
             this.panel1.Controls.Add(this.btnProcess);
             this.panel1.Controls.Add(this.btnCopyText);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(538, 485);
+            this.panel1.Location = new System.Drawing.Point(537, 485);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
             this.tblLayout.SetRowSpan(this.panel1, 2);
@@ -309,7 +309,7 @@
             this.tbTitles.Multiline = true;
             this.tbTitles.Name = "tbTitles";
             this.tblLayout.SetRowSpan(this.tbTitles, 4);
-            this.tbTitles.Size = new System.Drawing.Size(508, 472);
+            this.tbTitles.Size = new System.Drawing.Size(507, 472);
             this.tbTitles.TabIndex = 0;
             this.tbTitles.WordWrap = false;
             this.tbTitles.TextChanged += new System.EventHandler(this.TextBox_TextChanged);
@@ -321,7 +321,7 @@
             this.tbAdditionalAbbr.AllowDrop = true;
             this.tbAdditionalAbbr.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbAdditionalAbbr.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbAdditionalAbbr.Location = new System.Drawing.Point(538, 59);
+            this.tbAdditionalAbbr.Location = new System.Drawing.Point(537, 59);
             this.tbAdditionalAbbr.Margin = new System.Windows.Forms.Padding(0);
             this.tbAdditionalAbbr.Multiline = true;
             this.tbAdditionalAbbr.Name = "tbAdditionalAbbr";
@@ -352,6 +352,7 @@
             this.MinimumSize = new System.Drawing.Size(960, 593);
             this.Name = "MainForm";
             this.Text = "TitleCaser";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResizeEnd += new System.EventHandler(this.MainForm_Resize);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.tblLayout.ResumeLayout(false);

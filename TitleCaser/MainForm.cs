@@ -16,8 +16,11 @@ namespace TitleCaser
         [DllImport("User32.dll")]
         public static extern Int32 SetForegroundWindow(int hWnd);
 
-        public MainForm()
+        private static string[] m_loadFromFilePath = null;
+
+        public MainForm(string[] loadFromFilePath)
         {
+            m_loadFromFilePath = loadFromFilePath;
             SetStyle(
                ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint |
                ControlStyles.SupportsTransparentBackColor, true);
@@ -31,6 +34,25 @@ namespace TitleCaser
             this.Activate();
             this.Focus();
             SetForegroundWindow(this.Handle.ToInt32());
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            if (m_loadFromFilePath != null && m_loadFromFilePath.Length > 0)
+            {
+                new Thread((ThreadStart)delegate
+                {
+                    if (File.Exists(m_loadFromFilePath[0]))
+                    {
+                        if (Path.GetExtension(m_loadFromFilePath[0]).ToLower().In(FileTypes.Text) ||
+                            Path.GetExtension(m_loadFromFilePath[0]).ToLower().In(FileTypes.Csv))
+                        {
+                            SetTitles(Extensions.ReadFileAsUtf8(m_loadFromFilePath[0]));
+                        }
+                    }
+
+                }).Start();
+            }
         }
 
         internal void ResetForm()
@@ -219,13 +241,21 @@ namespace TitleCaser
             if (files.Length == 1)
             {
                 TextBox textBox = sender as TextBox;
-                string text = ((TextBox)sender).Text = Extensions.ReadFileAsUtf8(files[0]);
 
                 if (textBox.Name == "tbAdditionalAbbr")
+                {
+                    string text = Extensions.ReadFileAsUtf8(files[0]);
                     textBox.Text = string.Join("\r\n", text.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries))
                                          .Replace("\r\n ", "\r\n");
+                }
                 else
-                    textBox.Text = text;
+                {
+                    new Thread((ThreadStart)delegate
+                    {
+                        SetTitles(Extensions.ReadFileAsUtf8(files[0]));
+
+                    }).Start();
+                }
             }
         }
 
@@ -386,6 +416,6 @@ namespace TitleCaser
 
         #endregion
 
-        #endregion        
+        #endregion
     }
 }
