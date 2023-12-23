@@ -67,7 +67,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Business\TitleCaseConverter.cs" />
+    <Compile Include="TitleCaseConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
