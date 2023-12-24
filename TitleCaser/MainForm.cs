@@ -323,7 +323,6 @@ namespace TitleCaser
                         cbTyicalLowercase.Checked = config.KeepTypicalLowercase;
 
                         btnSave.Enabled = false;
-
                         UnselectTextBoxes();
                     }
                     catch (Exception ex)
@@ -355,9 +354,7 @@ namespace TitleCaser
                     };
 
                     ConfigManager.WriteToXmlFile<ConfigModel>(saveFileDialog.FileName, config);
-
                     btnSave.Enabled = false;
-
                     UnselectTextBoxes();
                 }
                 catch (Exception ex)
@@ -388,10 +385,12 @@ namespace TitleCaser
                 titlesList.Remove("");
 
                 additionalAbbreviations = string.Join("\r\n", additionalAbbreviations.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries))
-                                                .Replace("\r\n ", "\r\n");
+                                                .Replace("\r\n ", "\r\n")
+                                                .Replace("\r\n\r\n", "\r\n");
 
                 var additionalAbbreviationsList = additionalAbbreviations.Replace("\r", "").Split('\n').ToList();
                 additionalAbbreviationsList.Remove("");
+                additionalAbbreviationsList.Remove("\r\n\r\n");
 
                 for (int i = 0; i < additionalAbbreviationsList.Count; i++)
                     additionalAbbreviationsList[i] = additionalAbbreviationsList[i].Trim();

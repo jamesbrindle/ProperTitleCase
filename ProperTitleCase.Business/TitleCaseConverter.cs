@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace TitleCaser.Business
+namespace TitleCaser
 {
     /// <summary>
     /// Class providing functions for advanced 'Title Case' string conversion.
@@ -15,7 +15,7 @@ namespace TitleCaser.Business
         /// Converts the input string to title case, with various options for handling abbreviations, measurements, and other special cases.
         /// </summary>
         /// <param name="input">The string to convert to title case.</param>
-        /// <param name="additionalAbbreviations">A list of additional abbreviations to consider during conversion.</param>
+        /// <param name="additionalAbbreviations">A list of additional abbreviations to consider du^ring conversion.</param>
         /// <param name="lookupCommonAbbreviations">Whether to look up common abbreviations.</param>
         /// <param name="keepTypicalAllLowers">Whether to keep typically lowercase words in lower case.</param>
         /// <param name="formatMeasurements">Whether to format measurement strings.</param>
@@ -139,26 +139,29 @@ namespace TitleCaser.Business
             // Iterate through each title and process each word.
             foreach (string title in input)
             {
-                var words = title.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                var processedWords = words.Select(word => ProcessWord(word, additionalAbbreviations, lookupCommonAbbreviations, keepTypicalAllLowers, textInfo)).ToArray();
-
-                // Apply measurement formatting if specified.
-                if (formatMeasurements)
+                if (!string.IsNullOrWhiteSpace(title))
                 {
-                    processedTitles.Add(
-                        FormatMeasurementString(
+                    var words = title.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    var processedWords = words.Select(word => ProcessWord(word, additionalAbbreviations, lookupCommonAbbreviations, keepTypicalAllLowers, textInfo)).ToArray();
+
+                    // Apply measurement formatting if specified.
+                    if (formatMeasurements)
+                    {
+                        processedTitles.Add(
+                            FormatMeasurementString(
+                                CleanedOutput(
+                                    string.Join(" ", processedWords),
+                                    removeStartEndQuotesOnClean,
+                                    removeDoubleSymbols)));
+                    }
+                    else
+                    {
+                        processedTitles.Add(
                             CleanedOutput(
                                 string.Join(" ", processedWords),
                                 removeStartEndQuotesOnClean,
-                                removeDoubleSymbols)));
-                }
-                else
-                {
-                    processedTitles.Add(
-                        CleanedOutput(
-                            string.Join(" ", processedWords),
-                            removeStartEndQuotesOnClean,
-                            removeDoubleSymbols));
+                                removeDoubleSymbols));
+                    }
                 }
             }
 

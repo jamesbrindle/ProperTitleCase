@@ -139,26 +139,29 @@ namespace TitleCaser.Business
             // Iterate through each title and process each word.
             foreach (string title in input)
             {
-                var words = title.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                var processedWords = words.Select(word => ProcessWord(word, additionalAbbreviations, lookupCommonAbbreviations, keepTypicalAllLowers, textInfo)).ToArray();
-
-                // Apply measurement formatting if specified.
-                if (formatMeasurements)
+                if (!string.IsNullOrWhiteSpace(title))
                 {
-                    processedTitles.Add(
-                        FormatMeasurementString(
+                    var words = title.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    var processedWords = words.Select(word => ProcessWord(word, additionalAbbreviations, lookupCommonAbbreviations, keepTypicalAllLowers, textInfo)).ToArray();
+
+                    // Apply measurement formatting if specified.
+                    if (formatMeasurements)
+                    {
+                        processedTitles.Add(
+                            FormatMeasurementString(
+                                CleanedOutput(
+                                    string.Join(" ", processedWords),
+                                    removeStartEndQuotesOnClean,
+                                    removeDoubleSymbols)));
+                    }
+                    else
+                    {
+                        processedTitles.Add(
                             CleanedOutput(
                                 string.Join(" ", processedWords),
                                 removeStartEndQuotesOnClean,
-                                removeDoubleSymbols)));
-                }
-                else
-                {
-                    processedTitles.Add(
-                        CleanedOutput(
-                            string.Join(" ", processedWords),
-                            removeStartEndQuotesOnClean,
-                            removeDoubleSymbols));
+                                removeDoubleSymbols));
+                    }
                 }
             }
 
