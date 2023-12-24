@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Timers;
 using System.Windows.Forms;
 using TitleCase.Helpers;
 using TitleCaser.Business;
@@ -17,10 +18,12 @@ namespace TitleCaser
         public static extern Int32 SetForegroundWindow(int hWnd);
 
         private static string[] m_loadFromFilePath = null;
+        System.Timers.Timer m_loadFileTimer = null;
 
         public MainForm(string[] loadFromFilePath)
         {
             m_loadFromFilePath = loadFromFilePath;
+
             SetStyle(
                ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint |
                ControlStyles.SupportsTransparentBackColor, true);
@@ -40,25 +43,39 @@ namespace TitleCaser
         {
             if (m_loadFromFilePath != null && m_loadFromFilePath.Length > 0)
             {
-                new Thread((ThreadStart)delegate
-                {
-                    if (File.Exists(m_loadFromFilePath[0]))
-                    {
-                        if (Path.GetExtension(m_loadFromFilePath[0]).ToLower().In(FileTypes.Text) ||
-                            Path.GetExtension(m_loadFromFilePath[0]).ToLower().In(FileTypes.Csv))
-                        {
-                            SetTitles(Extensions.ReadFileAsUtf8(m_loadFromFilePath[0]));
-                        }
-                    }
+                SetProcessing(true);
 
-                }).Start();
+                m_loadFileTimer = new System.Timers.Timer();
+                m_loadFileTimer.Elapsed += new ElapsedEventHandler(LoadFileTimerEvent);
+                m_loadFileTimer.Interval = 2000;
+                m_loadFileTimer.Enabled = true;
+                m_loadFileTimer.Start();
             }
+        }
+
+        private void LoadFileTimerEvent(object source, ElapsedEventArgs e)
+        {
+            m_loadFileTimer.Stop();
+            m_loadFileTimer.Enabled = false;
+
+            ThreadPool.QueueUserWorkItem(delegate
+            {
+                if (File.Exists(m_loadFromFilePath[0]))
+                {
+                    if (Path.GetExtension(m_loadFromFilePath[0]).ToLower().In(FileTypes.Text) ||
+                        Path.GetExtension(m_loadFromFilePath[0]).ToLower().In(FileTypes.Csv))
+                    {
+                        string titles = Extensions.ReadFileAsUtf8(m_loadFromFilePath[0]);
+                        SetTitles(titles);
+                        SetProcessing(false);
+                    }
+                }
+            });
         }
 
         internal void ResetForm()
         {
             tbTitles.Clear();
-            tbTitles.ScrollBars = ScrollBars.None;
 
             tbAdditionalAbbr.Clear();
             tbAdditionalAbbr.ScrollBars = ScrollBars.None;
@@ -120,8 +137,11 @@ namespace TitleCaser
             }
             else
             {
+                UnselectTextBoxes();
+
                 if (processing)
                 {
+                    tbTitles.SuspendLayout();
                     tbTitles.ReadOnly = true;
                     tbAdditionalAbbr.ReadOnly = true;
                     btnCopyText.Enabled = false;
@@ -138,6 +158,7 @@ namespace TitleCaser
                 }
                 else
                 {
+                    tbTitles.ResumeLayout();
                     tbTitles.ReadOnly = false;
                     tbAdditionalAbbr.ReadOnly = false;
                     btnCopyText.Enabled = true;
@@ -153,6 +174,8 @@ namespace TitleCaser
                     cbTyicalLowercase.Enabled = true;
                     pbPreloader.Visible = false;
                 }
+
+                UnselectTextBoxes();
             }
         }
 
@@ -206,8 +229,18 @@ namespace TitleCaser
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            SetTextBoxDimentions(tbTitles, null);
             SetTextBoxDimentions(tbAdditionalAbbr, null);
+        }
+
+        private void MainForm_ResizeEnd(object sender, EventArgs e)
+        {
+            SetTextBoxDimentions(tbAdditionalAbbr, null);
+            tbTitles.ResumeLayout();
+        }
+
+        private void MainForm_ResizeBegin(object sender, EventArgs e)
+        {
+            tbTitles.SuspendLayout();
         }
 
         private void TextBox_TextChanged(object sender, EventArgs e)
@@ -250,11 +283,13 @@ namespace TitleCaser
                 }
                 else
                 {
-                    new Thread((ThreadStart)delegate
+                    SetProcessing(true);
+                    ThreadPool.QueueUserWorkItem(delegate
                     {
-                        SetTitles(Extensions.ReadFileAsUtf8(files[0]));
-
-                    }).Start();
+                        string titles = Extensions.ReadFileAsUtf8(m_loadFromFilePath[0]);
+                        SetTitles(titles);
+                        SetProcessing(false);
+                    });
                 }
             }
         }
