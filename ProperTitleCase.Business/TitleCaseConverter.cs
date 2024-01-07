@@ -135,7 +135,7 @@ namespace TitleCaser
             {
                 if (!string.IsNullOrWhiteSpace(title))
                 {
-                    var words = title.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    var words = Regex.Split(title.ToLower(), "([ / -])");
                     var processedWords = words.Select(word => ProcessWord(word, textInfo, options)).ToArray();
 
                     // Apply measurement formatting if specified.
@@ -144,7 +144,7 @@ namespace TitleCaser
                         processedTitles.Add(
                             FormatMeasurementString(
                                 CleanedOutput(
-                                    string.Join(" ", processedWords),
+                                    string.Join("", processedWords),
                                     options.RemoveStartEndQuotesOnClean,
                                     options.RemoveDoubleSymbolsOnClean)));
                     }
@@ -152,7 +152,7 @@ namespace TitleCaser
                     {
                         processedTitles.Add(
                             CleanedOutput(
-                                string.Join(" ", processedWords),
+                                string.Join("", processedWords),
                                 options.RemoveStartEndQuotesOnClean,
                                 options.RemoveDoubleSymbolsOnClean));
                     }
@@ -168,6 +168,8 @@ namespace TitleCaser
             TextInfo textInfo,
             Options options = default)
         {
+            word = word.Replace("’", "'");
+
             // Converts emails to lowercase.
             if (IsEmail(word)) return word.ToLower();
 
@@ -296,7 +298,17 @@ namespace TitleCaser
         // Checks if the provided word is a URL web address
         private static bool IsUrl(string word)
         {
-            return Lookups.RegularExpression.Url.IsMatch(word);
+            return
+                Lookups.RegularExpression.Url.IsMatch(word) ||
+                RemoveStartOrEndsWithSpecialCharacter(word.ToLower(), out char? _, out char? _).EndsWith(".com") ||
+                RemoveStartOrEndsWithSpecialCharacter(word.ToLower(), out char? _, out char? _).EndsWith(".co.uk") ||
+                RemoveStartOrEndsWithSpecialCharacter(word.ToLower(), out char? _, out char? _).EndsWith(".uk") ||
+                RemoveStartOrEndsWithSpecialCharacter(word.ToLower(), out char? _, out char? _).EndsWith(".gov") ||
+                RemoveStartOrEndsWithSpecialCharacter(word.ToLower(), out char? _, out char? _).EndsWith(".gov.uk") ||
+                RemoveStartOrEndsWithSpecialCharacter(word.ToLower(), out char? _, out char? _).EndsWith(".org.uk") ||
+                RemoveStartOrEndsWithSpecialCharacter(word.ToLower(), out char? _, out char? _).EndsWith(".net") ||
+                RemoveStartOrEndsWithSpecialCharacter(word.ToLower(), out char? _, out char? _).EndsWith(".edu") ||
+                RemoveStartOrEndsWithSpecialCharacter(word.ToLower(), out char? _, out char? _).EndsWith(".biz");
         }
 
         // Checks if the provided word is an ordinal number (e.g., 1st, 2nd).
@@ -351,6 +363,7 @@ namespace TitleCaser
             if (word.Count(c => c == '}') > 0) return true;  // At least one close curly brace '}'
             if (word.Count(c => c == ';') > 1) return true;  // More than one semicolon ';'
             if (word.Count(c => c == '\'') > 1) return true; // More than one single quote '\''
+            if (word.Count(c => c == '’') > 1) return true; // More than one single quote '\''
             if (word.Count(c => c == '#') > 0) return true;  // At least one hash '#'
             if (word.Count(c => c == ':') > 1) return true;  // More than one colon ':'
             if (word.Count(c => c == '@') > 1) return true;  // More than one at sign '@'
@@ -380,6 +393,11 @@ namespace TitleCaser
             if (word.EndsWith("'s", StringComparison.OrdinalIgnoreCase))
             {
                 word = word.ToLower().Replace("'s", "");
+                endsWithApostropheS = true;
+            }
+            else if (word.EndsWith("’s", StringComparison.OrdinalIgnoreCase))
+            {
+                word = word.ToLower().Replace("’s", "");
                 endsWithApostropheS = true;
             }
 
@@ -519,7 +537,7 @@ namespace TitleCaser
                 internal static readonly Regex Email = new Regex(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
             }
 
-            internal static string SpecialCharacters = "¬!\"£$%^&*() _+`-=[]{};'#:@~,./<>?\\|";
+            internal static string SpecialCharacters = "¬!\"£$%^&*() _+`’-=[]{};'#:@~,./<>?\\|";
 
             internal static HashSet<string> AbbreviatedDayOrMonthHashSet = new HashSet<string>
             {
@@ -30829,6 +30847,7 @@ namespace TitleCaser
                 "amb-s",
                 "ambi-s",
                 "auto-s",
+                "auto",
                 "autumns",
                 "avas",
                 "avails",
