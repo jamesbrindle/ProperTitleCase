@@ -20,7 +20,7 @@ namespace TitleCaser
 
             };
 
-            var processedTitles = TitleCaseConverter.ToProperTitleCase(titles, additionalAbbreviations);
+            var processedTitles = TitleCaseConverter.ToProperTitleCase(titles, new TitleCaseConverter.Options { AdditionalAbbreviations = additionalAbbreviations });
 
             foreach (var title in processedTitles)
                 Console.WriteLine(title);

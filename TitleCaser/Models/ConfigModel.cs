@@ -18,14 +18,18 @@ namespace TitleCaser.Models
 
         public string AdditionalAbbreviations { get; set; }
 
-        public bool ProcessCommonAbbreviations { get; set; }
+        public bool ProcessCommonAbbreviations { get; set; } = true;
 
-        public bool FormatMeasurments { get; set; }
+        public bool FormatMeasurments { get; set; } = true;
 
-        public bool KeepTypicalLowercase { get; set; }
+        public bool KeepTypicalLowercase { get; set; } = true;
 
-        public bool RemoveStartEndEndQuotes { get; set; }
+        public bool RemoveStartEndEndQuotes { get; set; } = true;
 
-        public bool RemoveDoubleSymbols { get; set; }
+        public bool RemoveDoubleSymbols { get; set; } = true;
+
+        public bool DictionaryLookup { get; set; } = true;
+
+        public int MaxDictionaryLookupLetters { get; set; } = 4;
     }
 }

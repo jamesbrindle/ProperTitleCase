@@ -51,6 +51,10 @@
             this.tbAdditionalAbbr = new System.Windows.Forms.TextBox();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.cbMaxLettersDictionaryLookup = new System.Windows.Forms.ComboBox();
+            this.cbDictionaryLookup = new System.Windows.Forms.CheckBox();
+            this.lblMax = new System.Windows.Forms.Label();
+            this.lblLetters = new System.Windows.Forms.Label();
             this.tblLayout.SuspendLayout();
             this.gpOptions.SuspendLayout();
             this.pnlTitles.SuspendLayout();
@@ -67,7 +71,7 @@
             this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.65461F));
             this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.34539F));
-            this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tblLayout.Controls.Add(this.gpOptions, 3, 3);
             this.tblLayout.Controls.Add(this.pnlTitles, 1, 0);
             this.tblLayout.Controls.Add(this.pnlAdditionalAbbr, 3, 0);
@@ -79,11 +83,11 @@
             this.tblLayout.Name = "tblLayout";
             this.tblLayout.RowCount = 6;
             this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
-            this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 58.57143F));
+            this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 47.26841F));
             this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-            this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.42857F));
+            this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52.73159F));
             this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
-            this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 14F));
+            this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tblLayout.Size = new System.Drawing.Size(942, 546);
             this.tblLayout.TabIndex = 0;
             // 
@@ -92,16 +96,20 @@
             this.gpOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gpOptions.Controls.Add(this.lblLetters);
+            this.gpOptions.Controls.Add(this.lblMax);
+            this.gpOptions.Controls.Add(this.cbDictionaryLookup);
+            this.gpOptions.Controls.Add(this.cbMaxLettersDictionaryLookup);
             this.gpOptions.Controls.Add(this.cbRemoveDoubleSymbols);
             this.gpOptions.Controls.Add(this.cbRemoveStartAndEndQuotes);
             this.gpOptions.Controls.Add(this.cbTyicalLowercase);
             this.gpOptions.Controls.Add(this.cbMeasurements);
             this.gpOptions.Controls.Add(this.cbCommonAbbr);
-            this.gpOptions.Location = new System.Drawing.Point(537, 314);
+            this.gpOptions.Location = new System.Drawing.Point(539, 266);
             this.gpOptions.Margin = new System.Windows.Forms.Padding(1, 3, 1, 1);
             this.gpOptions.Name = "gpOptions";
             this.gpOptions.Padding = new System.Windows.Forms.Padding(0);
-            this.gpOptions.Size = new System.Drawing.Size(385, 170);
+            this.gpOptions.Size = new System.Drawing.Size(386, 218);
             this.gpOptions.TabIndex = 2;
             this.gpOptions.TabStop = false;
             this.gpOptions.Text = "Options";
@@ -111,7 +119,7 @@
             this.cbRemoveDoubleSymbols.AutoSize = true;
             this.cbRemoveDoubleSymbols.Checked = true;
             this.cbRemoveDoubleSymbols.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRemoveDoubleSymbols.Location = new System.Drawing.Point(10, 137);
+            this.cbRemoveDoubleSymbols.Location = new System.Drawing.Point(10, 150);
             this.cbRemoveDoubleSymbols.Name = "cbRemoveDoubleSymbols";
             this.cbRemoveDoubleSymbols.Size = new System.Drawing.Size(236, 21);
             this.cbRemoveDoubleSymbols.TabIndex = 4;
@@ -124,7 +132,7 @@
             this.cbRemoveStartAndEndQuotes.AutoSize = true;
             this.cbRemoveStartAndEndQuotes.Checked = true;
             this.cbRemoveStartAndEndQuotes.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRemoveStartAndEndQuotes.Location = new System.Drawing.Point(10, 110);
+            this.cbRemoveStartAndEndQuotes.Location = new System.Drawing.Point(10, 120);
             this.cbRemoveStartAndEndQuotes.Name = "cbRemoveStartAndEndQuotes";
             this.cbRemoveStartAndEndQuotes.Size = new System.Drawing.Size(241, 21);
             this.cbRemoveStartAndEndQuotes.TabIndex = 3;
@@ -137,7 +145,7 @@
             this.cbTyicalLowercase.AutoSize = true;
             this.cbTyicalLowercase.Checked = true;
             this.cbTyicalLowercase.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbTyicalLowercase.Location = new System.Drawing.Point(10, 83);
+            this.cbTyicalLowercase.Location = new System.Drawing.Point(10, 90);
             this.cbTyicalLowercase.Name = "cbTyicalLowercase";
             this.cbTyicalLowercase.Size = new System.Drawing.Size(313, 21);
             this.cbTyicalLowercase.TabIndex = 2;
@@ -150,7 +158,7 @@
             this.cbMeasurements.AutoSize = true;
             this.cbMeasurements.Checked = true;
             this.cbMeasurements.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbMeasurements.Location = new System.Drawing.Point(10, 56);
+            this.cbMeasurements.Location = new System.Drawing.Point(10, 60);
             this.cbMeasurements.Name = "cbMeasurements";
             this.cbMeasurements.Size = new System.Drawing.Size(241, 21);
             this.cbMeasurements.TabIndex = 1;
@@ -179,7 +187,7 @@
             this.pnlTitles.Location = new System.Drawing.Point(15, 0);
             this.pnlTitles.Margin = new System.Windows.Forms.Padding(0);
             this.pnlTitles.Name = "pnlTitles";
-            this.pnlTitles.Size = new System.Drawing.Size(506, 59);
+            this.pnlTitles.Size = new System.Drawing.Size(508, 59);
             this.pnlTitles.TabIndex = 3;
             // 
             // pbPreloader
@@ -209,10 +217,10 @@
             // 
             this.pnlAdditionalAbbr.Controls.Add(this.lblAdditionalAbbr);
             this.pnlAdditionalAbbr.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlAdditionalAbbr.Location = new System.Drawing.Point(536, 0);
+            this.pnlAdditionalAbbr.Location = new System.Drawing.Point(538, 0);
             this.pnlAdditionalAbbr.Margin = new System.Windows.Forms.Padding(0);
             this.pnlAdditionalAbbr.Name = "pnlAdditionalAbbr";
-            this.pnlAdditionalAbbr.Size = new System.Drawing.Size(387, 59);
+            this.pnlAdditionalAbbr.Size = new System.Drawing.Size(388, 59);
             this.pnlAdditionalAbbr.TabIndex = 4;
             // 
             // lblAdditionalAbbr
@@ -235,11 +243,11 @@
             this.panel1.Controls.Add(this.btnProcess);
             this.panel1.Controls.Add(this.btnCopyText);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(536, 485);
+            this.panel1.Location = new System.Drawing.Point(538, 485);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
             this.tblLayout.SetRowSpan(this.panel1, 2);
-            this.panel1.Size = new System.Drawing.Size(387, 61);
+            this.panel1.Size = new System.Drawing.Size(388, 61);
             this.panel1.TabIndex = 5;
             // 
             // btnSave
@@ -310,7 +318,7 @@
             this.tbTitles.Name = "tbTitles";
             this.tblLayout.SetRowSpan(this.tbTitles, 4);
             this.tbTitles.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbTitles.Size = new System.Drawing.Size(506, 472);
+            this.tbTitles.Size = new System.Drawing.Size(508, 472);
             this.tbTitles.TabIndex = 0;
             this.tbTitles.WordWrap = false;
             this.tbTitles.DragDrop += new System.Windows.Forms.DragEventHandler(this.TextBox_DragDrop);
@@ -321,11 +329,11 @@
             this.tbAdditionalAbbr.AllowDrop = true;
             this.tbAdditionalAbbr.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbAdditionalAbbr.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbAdditionalAbbr.Location = new System.Drawing.Point(536, 59);
+            this.tbAdditionalAbbr.Location = new System.Drawing.Point(538, 59);
             this.tbAdditionalAbbr.Margin = new System.Windows.Forms.Padding(0);
             this.tbAdditionalAbbr.Multiline = true;
             this.tbAdditionalAbbr.Name = "tbAdditionalAbbr";
-            this.tbAdditionalAbbr.Size = new System.Drawing.Size(387, 247);
+            this.tbAdditionalAbbr.Size = new System.Drawing.Size(388, 199);
             this.tbAdditionalAbbr.TabIndex = 1;
             this.tbAdditionalAbbr.TextChanged += new System.EventHandler(this.TextBox_TextChanged);
             this.tbAdditionalAbbr.DragDrop += new System.Windows.Forms.DragEventHandler(this.TextBox_DragDrop);
@@ -341,6 +349,57 @@
             this.openFileDialog.FileName = "TitleCase_Config.xml";
             this.openFileDialog.Filter = "Title Case Config files (*.xml)|*.xml";
             // 
+            // cbMaxLettersDictionaryLookup
+            // 
+            this.cbMaxLettersDictionaryLookup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMaxLettersDictionaryLookup.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbMaxLettersDictionaryLookup.FormattingEnabled = true;
+            this.cbMaxLettersDictionaryLookup.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"});
+            this.cbMaxLettersDictionaryLookup.Location = new System.Drawing.Point(208, 178);
+            this.cbMaxLettersDictionaryLookup.Name = "cbMaxLettersDictionaryLookup";
+            this.cbMaxLettersDictionaryLookup.Size = new System.Drawing.Size(41, 25);
+            this.cbMaxLettersDictionaryLookup.TabIndex = 5;
+            this.cbMaxLettersDictionaryLookup.SelectedIndexChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            // 
+            // cbDictionaryLookup
+            // 
+            this.cbDictionaryLookup.AutoSize = true;
+            this.cbDictionaryLookup.Checked = true;
+            this.cbDictionaryLookup.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbDictionaryLookup.Location = new System.Drawing.Point(10, 180);
+            this.cbDictionaryLookup.Name = "cbDictionaryLookup";
+            this.cbDictionaryLookup.Size = new System.Drawing.Size(135, 21);
+            this.cbDictionaryLookup.TabIndex = 6;
+            this.cbDictionaryLookup.Text = "Dictionary Lookup";
+            this.cbDictionaryLookup.UseVisualStyleBackColor = true;
+            this.cbDictionaryLookup.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            // 
+            // lblMax
+            // 
+            this.lblMax.AutoSize = true;
+            this.lblMax.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMax.Location = new System.Drawing.Point(167, 181);
+            this.lblMax.Name = "lblMax";
+            this.lblMax.Size = new System.Drawing.Size(32, 17);
+            this.lblMax.TabIndex = 7;
+            this.lblMax.Text = "max";
+            // 
+            // lblLetters
+            // 
+            this.lblLetters.AutoSize = true;
+            this.lblLetters.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLetters.Location = new System.Drawing.Point(254, 181);
+            this.lblLetters.Name = "lblLetters";
+            this.lblLetters.Size = new System.Drawing.Size(41, 17);
+            this.lblLetters.TabIndex = 8;
+            this.lblLetters.Text = "letters";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -352,6 +411,7 @@
             this.MinimumSize = new System.Drawing.Size(960, 593);
             this.Name = "MainForm";
             this.Text = "TitleCaser";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResizeBegin += new System.EventHandler(this.MainForm_ResizeBegin);
             this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
@@ -394,6 +454,10 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.CheckBox cbRemoveStartAndEndQuotes;
         private System.Windows.Forms.CheckBox cbRemoveDoubleSymbols;
+        private System.Windows.Forms.ComboBox cbMaxLettersDictionaryLookup;
+        private System.Windows.Forms.Label lblLetters;
+        private System.Windows.Forms.Label lblMax;
+        private System.Windows.Forms.CheckBox cbDictionaryLookup;
     }
 }
 

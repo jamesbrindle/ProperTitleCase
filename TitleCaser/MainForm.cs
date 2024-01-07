@@ -33,9 +33,13 @@ namespace TitleCaser
 
             InitializeComponent();
 
+            cbMaxLettersDictionaryLookup.SelectedItem = "4";
+            btnSave.Enabled = false;
+
             this.BringToFront();
             this.Activate();
             this.Focus();
+
             SetForegroundWindow(this.Handle.ToInt32());
         }
 
@@ -73,6 +77,21 @@ namespace TitleCaser
             });
         }
 
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (btnSave.Enabled)
+            {
+                if (MessageBox.Show(
+                    "You have unsaved changed. Are you sure you wish to close and lose those changes?",
+                    "Exit?",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
+
         internal void ResetForm()
         {
             tbTitles.Clear();
@@ -85,8 +104,11 @@ namespace TitleCaser
             cbTyicalLowercase.Checked = true;
             cbRemoveDoubleSymbols.Checked = true;
             cbRemoveStartAndEndQuotes.Checked = true;
+            cbDictionaryLookup.Checked = true;
 
+            SetDictionaryLookup(true);
 
+            cbMaxLettersDictionaryLookup.SelectedItem = "4";
             pbPreloader.Visible = false;
 
             btnProcess.Enabled = true;
@@ -94,6 +116,13 @@ namespace TitleCaser
             btnReset.Enabled = true;
             btnLoad.Enabled = true;
             btnCopyText.Enabled = true;
+        }
+
+        internal void SetDictionaryLookup(bool enabled)
+        {
+            cbMaxLettersDictionaryLookup.Enabled = enabled;
+            lblLetters.Enabled = enabled;
+            lblMax.Enabled = enabled;
         }
 
         internal static Size GetTextDimensions(Control control, Font font, string stringData)
@@ -129,6 +158,10 @@ namespace TitleCaser
                 cbRemoveStartAndEndQuotes.InvokeRequired ||
                 cbMeasurements.InvokeRequired ||
                 cbRemoveDoubleSymbols.InvokeRequired ||
+                cbDictionaryLookup.InvokeRequired ||
+                cbMaxLettersDictionaryLookup.InvokeRequired ||
+                lblMax.InvokeRequired ||
+                lblLetters.InvokeRequired ||
                 cbTyicalLowercase.InvokeRequired ||
                 pbPreloader.InvokeRequired)
             {
@@ -154,7 +187,9 @@ namespace TitleCaser
                     cbMeasurements.Enabled = false;
                     cbRemoveDoubleSymbols.Enabled = false;
                     cbTyicalLowercase.Enabled = false;
+                    cbDictionaryLookup.Enabled = false;
                     pbPreloader.Visible = true;
+                    SetDictionaryLookup(false);
                 }
                 else
                 {
@@ -173,6 +208,8 @@ namespace TitleCaser
                     cbRemoveDoubleSymbols.Enabled = true;
                     cbTyicalLowercase.Enabled = true;
                     pbPreloader.Visible = false;
+                    cbDictionaryLookup.Enabled = true;
+                    SetDictionaryLookup(cbDictionaryLookup.Checked);
                 }
 
                 UnselectTextBoxes();
@@ -211,7 +248,8 @@ namespace TitleCaser
         public void UnselectTextBoxes()
         {
             if (tbTitles.InvokeRequired ||
-                tbAdditionalAbbr.InvokeRequired)
+                tbAdditionalAbbr.InvokeRequired ||
+                cbMaxLettersDictionaryLookup.InvokeRequired)
             {
                 var d = new UnselectTextBoxesDelegate(UnselectTextBoxes);
                 Invoke(d);
@@ -220,6 +258,8 @@ namespace TitleCaser
             {
                 tbTitles.Select(0, 0);
                 tbAdditionalAbbr.Select(0, 0);
+                cbMaxLettersDictionaryLookup.SelectionLength = 0;
+                lblTitles.Focus();
             }
         }
 
@@ -297,6 +337,13 @@ namespace TitleCaser
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
         {
             btnSave.Enabled = true;
+
+            cbMaxLettersDictionaryLookup.Enabled = cbDictionaryLookup.Checked;
+            lblMax.Enabled = cbDictionaryLookup.Checked;
+            lblLetters.Enabled = cbDictionaryLookup.Checked;
+
+            cbMaxLettersDictionaryLookup.SelectionLength = 0;
+            lblTitles.Focus();
         }
 
         #region Buttons
@@ -356,6 +403,10 @@ namespace TitleCaser
                         cbMeasurements.Checked = config.FormatMeasurments;
                         cbRemoveDoubleSymbols.Checked = config.RemoveDoubleSymbols;
                         cbTyicalLowercase.Checked = config.KeepTypicalLowercase;
+                        cbDictionaryLookup.Checked = config.DictionaryLookup;
+                        cbMaxLettersDictionaryLookup.SelectedItem = config.MaxDictionaryLookupLetters.ToString();
+
+                        SetDictionaryLookup(cbDictionaryLookup.Checked);
 
                         btnSave.Enabled = false;
                         UnselectTextBoxes();
@@ -385,7 +436,9 @@ namespace TitleCaser
                         RemoveStartEndEndQuotes = cbRemoveStartAndEndQuotes.Checked,
                         FormatMeasurments = cbMeasurements.Checked,
                         RemoveDoubleSymbols = cbRemoveDoubleSymbols.Checked,
-                        KeepTypicalLowercase = cbTyicalLowercase.Checked
+                        KeepTypicalLowercase = cbTyicalLowercase.Checked,
+                        DictionaryLookup = cbDictionaryLookup.Checked,
+                        MaxDictionaryLookupLetters = Convert.ToInt32((string)cbMaxLettersDictionaryLookup.SelectedItem)
                     };
 
                     ConfigManager.WriteToXmlFile<ConfigModel>(saveFileDialog.FileName, config);
@@ -408,11 +461,12 @@ namespace TitleCaser
 
             string titles = tbTitles.Text;
             string additionalAbbreviations = tbAdditionalAbbr.Text.Trim();
-            bool processCommonAbbreviations = cbCommonAbbr.Checked;
+            bool lookupCommonAbbreviations = cbCommonAbbr.Checked;
             bool removeStartAndEndQuotes = cbRemoveStartAndEndQuotes.Checked;
             bool formatMeasurements = cbMeasurements.Checked;
             bool keepTypicalLowercaseWords = cbTyicalLowercase.Checked;
             bool removeDoubleSymbols = cbRemoveDoubleSymbols.Checked;
+            int maxDictionaryLookupLetters = !cbDictionaryLookup.Checked ? 0 : Convert.ToInt32((string)cbMaxLettersDictionaryLookup.SelectedItem);
 
             new Thread((ThreadStart)delegate
             {
@@ -430,14 +484,18 @@ namespace TitleCaser
                 for (int i = 0; i < additionalAbbreviationsList.Count; i++)
                     additionalAbbreviationsList[i] = additionalAbbreviationsList[i].Trim();
 
-                var formattedTitles = TitleCaseConverter.ToProperTitleCase(
-                    titlesList,
-                    additionalAbbreviationsList,
-                    processCommonAbbreviations,
-                    keepTypicalLowercaseWords,
-                    formatMeasurements,
-                    removeStartAndEndQuotes,
-                    removeDoubleSymbols);
+                var options = new TitleCaseConverter.Options
+                {
+                    AdditionalAbbreviations = additionalAbbreviationsList,
+                    LookupCommonAbbreviations = lookupCommonAbbreviations,
+                    KeepTypicalAllLowers = keepTypicalLowercaseWords,
+                    FormatMeasurements = formatMeasurements,
+                    RemoveStartEndQuotesOnClean = removeStartAndEndQuotes,
+                    RemoveDoubleSymbolsOnClean = removeStartAndEndQuotes,
+                    LookupEnglishDictioinaryMaxWordLength = maxDictionaryLookupLetters
+                };
+
+                var formattedTitles = TitleCaseConverter.ToProperTitleCase(titlesList, options);
 
                 SetAdditionalAbbreviations(String.Join("\r\n", additionalAbbreviationsList));
                 SetTitles(String.Join("\r\n", formattedTitles));
@@ -450,6 +508,6 @@ namespace TitleCaser
 
         #endregion
 
-        #endregion
+        #endregion      
     }
 }
