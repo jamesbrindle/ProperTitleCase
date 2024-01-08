@@ -9,18 +9,21 @@ namespace TitleCaser
     {
         static void Main()
         {
-            List<string> titles = File.ReadAllLines(@"D:\Desktop\Folder Structure Download - Static.csv").ToList();
+            List<string> titles = File.ReadAllLines(@"C:\Temp\test.csv").ToList();
 
             List<string> additionalAbbreviations = new List<string>
             {
-                "FAT",
-                "SAT",
-                "WAS",
                 "Psmt",
-
+                "CCGS",
+                "BBA"
             };
 
-            var processedTitles = TitleCaseConverter.ToProperTitleCase(titles, new TitleCaseConverter.Options { AdditionalAbbreviations = additionalAbbreviations });
+            var processedTitles = TitleCaseConverter.ToProperTitleCase(
+                titles,
+                new TitleCaseConverter.Options
+                {
+                    AdditionalAbbreviations = additionalAbbreviations
+                });
 
             foreach (var title in processedTitles)
                 Console.WriteLine(title);

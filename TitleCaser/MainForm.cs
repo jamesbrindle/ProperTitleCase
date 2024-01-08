@@ -492,7 +492,7 @@ namespace TitleCaser
                     FormatMeasurements = formatMeasurements,
                     RemoveStartEndQuotesOnClean = removeStartAndEndQuotes,
                     RemoveDoubleSymbolsOnClean = removeStartAndEndQuotes,
-                    LookupEnglishDictioinaryMaxWordLength = maxDictionaryLookupLetters
+                    MaxDictionaryLookupWordLength = maxDictionaryLookupLetters
                 };
 
                 var formattedTitles = TitleCaseConverter.ToProperTitleCase(titlesList, options);

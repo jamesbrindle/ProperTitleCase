@@ -13,7 +13,7 @@ namespace TitleCaser.Business
     {
         /// <summary>
         /// Options for title casing words
-        /// </summary>
+        /// </summary>"
         public class Options
         {
             /// <summary>
@@ -50,7 +50,7 @@ namespace TitleCaser.Business
             /// This class includes an English dictionary containing words of up to 6 characters. If the word isn't in the the english dictionary and it's this many characters
             /// or less, it will be assumed to be an abbreviation / acronym. You can set this value to 0 to disable this lookup.
             /// </summary>
-            public int LookupEnglishDictioinaryMaxWordLength { get; set; } = 4;
+            public int MaxDictionaryLookupWordLength { get; set; } = 4;
         }
 
         /// <summary>
@@ -114,10 +114,10 @@ namespace TitleCaser.Business
             this List<string> input,
             Options options = default)
         {
-            if (options.LookupEnglishDictioinaryMaxWordLength > 6)
+            if (options.MaxDictionaryLookupWordLength > 6)
             {
                 throw new ApplicationException(
-                    "Option: 'LookupEnglishDictioinaryMaxWordLength' is above the maximum of 6 allowed. " +
+                    "Option: 'MaxDictionaryLookupWordLength' is above the maximum of 6 allowed. " +
                     "The dictionary only contains words up to 6 characters long.");
             }
 
@@ -135,7 +135,7 @@ namespace TitleCaser.Business
             {
                 if (!string.IsNullOrWhiteSpace(title))
                 {
-                    var words = Regex.Split(title.ToLower(), "([ / -])");
+                    var words = Regex.Split(title.ToLower(), "([ / - —])");
                     var processedWords = words.Select(word => ProcessWord(word, textInfo, options)).ToArray();
 
                     // Apply measurement formatting if specified.
@@ -168,7 +168,7 @@ namespace TitleCaser.Business
             TextInfo textInfo,
             Options options = default)
         {
-            word = word.Replace("’", "'");
+            word = word.Replace("’", "'").Replace("“", "\"").Replace("”", "\"");
 
             // Converts emails to lowercase.
             if (IsEmail(word)) return word.ToLower();
@@ -192,11 +192,11 @@ namespace TitleCaser.Business
             if (IsAbbreviation(word, options.AdditionalAbbreviations, options.LookupCommonAbbreviations, out string formattedAbbreviation)) return formattedAbbreviation;
 
             // Converts short words to uppercase unless they are in the small words dictionary.
-            if (RemoveStartOrEndsWithSpecialCharacter(word, out char? _, out char? _).Length <= options.LookupEnglishDictioinaryMaxWordLength && !IsSmallWordInSmallWordDictionary(word)) return word.ToUpper();
+            if (RemoveStartOrEndsWithSpecialCharacter(word, out char? _, out char? _).Length <= options.MaxDictionaryLookupWordLength && !IsSmallWordInSmallWordDictionary(word)) return word.ToUpper();
 
             // Special handling for words ending with 's or 's".
-            if (RemoveStartOrEndsWithSpecialCharacter(word, out char? _, out char? _).Length <= (options.LookupEnglishDictioinaryMaxWordLength + 2) && word.ToLower().EndsWith("'s") && !IsSmallWordInSmallWordDictionary(word.ToLower().Replace("'s", ""))) return word.ToUpper().Replace("'S", "") + "'s";
-            if (RemoveStartOrEndsWithSpecialCharacter(word, out char? _, out char? _).Length <= (options.LookupEnglishDictioinaryMaxWordLength + 2) && word.ToLower().EndsWith("'s\"") && !IsSmallWordInSmallWordDictionary(word.ToLower().Replace("'s\"", ""))) return word.ToUpper().Replace("'S\"", "") + "'s\"";
+            if (RemoveStartOrEndsWithSpecialCharacter(word, out char? _, out char? _).Length <= (options.MaxDictionaryLookupWordLength + 2) && word.ToLower().EndsWith("'s") && !IsSmallWordInSmallWordDictionary(word.ToLower().Replace("'s", ""))) return word.ToUpper().Replace("'S", "") + "'s";
+            if (RemoveStartOrEndsWithSpecialCharacter(word, out char? _, out char? _).Length <= (options.MaxDictionaryLookupWordLength + 2) && word.ToLower().EndsWith("'s\"") && !IsSmallWordInSmallWordDictionary(word.ToLower().Replace("'s\"", ""))) return word.ToUpper().Replace("'S\"", "") + "'s\"";
 
             // Default case: converts the word to title case.
             return textInfo.ToTitleCase(word.ToLower());
@@ -214,7 +214,10 @@ namespace TitleCaser.Business
             if (removeDoubleSymbols)
             {
                 cleaned = cleaned.Replace("\"\"", "\"");
+                cleaned = cleaned.Replace("““", "“");
+                cleaned = cleaned.Replace("””", "”");
                 cleaned = cleaned.Replace("''", "'");
+                cleaned = cleaned.Replace("’’", "’");
                 cleaned = cleaned.Replace("--", "-");
                 cleaned = cleaned.Replace("__", "_");
                 cleaned = cleaned.Replace("––", "–");
@@ -238,13 +241,13 @@ namespace TitleCaser.Business
                     char s1 = cleaned[0];
                     char e1 = cleaned[cleaned.Length - 1];
 
-                    if (s1 == '\"' || s1 == '\'')
+                    if (s1 == '\"' || s1 == '\'' || s1 == '’' || s1 == '“' || s1 == '”')
                     {
                         start = s1;
                         cleaned = cleaned.Substring(1);
                     }
 
-                    if (e1 == '\"' || e1 == '\'')
+                    if (e1 == '\"' || e1 == '\'' || e1 == '’' || e1 == '“' || e1 == '”')
                     {
                         end = e1;
                         if (e1 == s1)
@@ -342,6 +345,8 @@ namespace TitleCaser.Business
             if (word.Count(c => c == '\\') > 0) return true; // Check for at least one backslash '\'
             if (word.Count(c => c == '.') > 1) return true;  // More than one period '.'
             if (word.Count(c => c == '"') > 2) return true;  // More than two quotation marks '"'
+            if (word.Count(c => c == '“') > 2) return true;  // More than two quotation marks '"'
+            if (word.Count(c => c == '”') > 2) return true;  // More than two quotation marks '"'
             if (word.Count(c => c == '£') > 0) return true;  // At least one pound symbol '£'
             if (word.Count(c => c == '$') > 0) return true;  // At least one dollar sign '$'
             if (word.Count(c => c == '%') > 0) return true;  // At least one percent sign '%'
@@ -517,7 +522,7 @@ namespace TitleCaser.Business
                         Lookups.SmallWordsHash.Remove(abbreviation.ToLower());
                 }
             }
-        }
+        }      
 
         /// <summary>
         /// A class containing re-used word lookups for determining what to convert to upercase or lowercase.
@@ -537,7 +542,7 @@ namespace TitleCaser.Business
                 internal static readonly Regex Email = new Regex(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
             }
 
-            internal static string SpecialCharacters = "¬!\"£$%^&*() _+`’-=[]{};'#:@~,./<>?\\|";
+            internal static string SpecialCharacters = "¬!\"£$%^&*() _+`’“”-=[]{};'#:@~,./<>?\\|";
 
             internal static HashSet<string> AbbreviatedDayOrMonthHashSet = new HashSet<string>
             {
@@ -739,12 +744,10 @@ namespace TitleCaser.Business
                 "ALGOL",
                 "ALSA",
                 "ALU",
-                "AM",
                 "AMD",
                 "AMOLED",
                 "AMQP",
                 "AMR",
-                "ANN",
                 "ANSI",
                 "ANT",
                 "AOP",
@@ -807,7 +810,6 @@ namespace TitleCaser.Business
                 "BCNF",
                 "BCP",
                 "BD",
-                "BEEP",
                 "BER",
                 "BFA",
                 "BFD",
@@ -1019,7 +1021,6 @@ namespace TitleCaser.Business
                 "DOB",
                 "DOCSIS",
                 "DOD",
-                "DOE",
                 "DOJ",
                 "DOM",
                 "DP",
@@ -1150,7 +1151,6 @@ namespace TitleCaser.Business
                 "FKA",
                 "FL",
                 "FLAC",
-                "FLOPS",
                 "FLOSS",
                 "FMC",
                 "FMO",
@@ -1409,7 +1409,6 @@ namespace TitleCaser.Business
                 "LIF",
                 "LIFO",
                 "LILO",
-                "LIP",
                 "LISP",
                 "LKML",
                 "LLM",
@@ -1434,7 +1433,6 @@ namespace TitleCaser.Business
                 "LZW",
                 "MA",
                 "MAC",
-                "MAN",
                 "MANET",
                 "MAPI",
                 "MBA",
@@ -1464,7 +1462,6 @@ namespace TitleCaser.Business
                 "MDF",
                 "MDI",
                 "MDM",
-                "ME",
                 "MF",
                 "MFA",
                 "MFC",
@@ -1601,7 +1598,6 @@ namespace TitleCaser.Business
                 "NetBIOS",
                 "NetBT",
                 "OASIS",
-                "OAT",
                 "OBSAI",
                 "OCD",
                 "ODBC",
@@ -1685,7 +1681,6 @@ namespace TitleCaser.Business
                 "PLC",
                 "PLD",
                 "PLT",
-                "PM",
                 "PMM",
                 "PNG",
                 "PNRP",
@@ -1693,10 +1688,8 @@ namespace TitleCaser.Business
                 "POCO",
                 "POID",
                 "POJO",
-                "POP",
                 "POP3",
                 "POSIX",
-                "POST",
                 "POTUS",
                 "POV",
                 "PPC",
@@ -1877,7 +1870,6 @@ namespace TitleCaser.Business
                 "SLOC",
                 "SM",
                 "SMA",
-                "SMART",
                 "SMB",
                 "SMBIOS",
                 "SME",
@@ -1980,11 +1972,9 @@ namespace TitleCaser.Business
                 "TTS",
                 "TTY",
                 "TUCOWS",
-                "TUG",
                 "TWAIN",
                 "TYT",
                 "Tcl",
-                "The Fed",
                 "UAAG",
                 "UAC",
                 "UART",
@@ -2047,7 +2037,6 @@ namespace TitleCaser.Business
                 "VHD",
                 "VHF",
                 "VIP",
-                "VIRUS",
                 "VLAN",
                 "VLB",
                 "VLF",
@@ -2098,7 +2087,6 @@ namespace TitleCaser.Business
                 "WOR",
                 "WORA",
                 "WORE",
-                "WORM",
                 "WPA",
                 "WPAD",
                 "WPAN",
@@ -2175,7 +2163,6 @@ namespace TitleCaser.Business
                 "iSCSI",
                 "iSNS",
                 "kHz",
-                "min",
                 "p. m.",
                 "qWave",
                 "e.g.",
@@ -2283,7 +2270,6 @@ namespace TitleCaser.Business
                 "AMOLEDs",
                 "AMQPs",
                 "AMRs",
-                "ANNs",
                 "ANSIs",
                 "ANTs",
                 "AOPs",
@@ -2348,7 +2334,6 @@ namespace TitleCaser.Business
                 "BCPs",
                 "BDs",
                 "BEs",
-                "BEEPs",
                 "BERs",
                 "BFAs",
                 "BFDs",
@@ -2549,7 +2534,6 @@ namespace TitleCaser.Business
                 "DOBs",
                 "DOCSISs",
                 "DODs",
-                "DOEs",
                 "DOJs",
                 "DOMs",
                 "DPs",
@@ -2680,7 +2664,6 @@ namespace TitleCaser.Business
                 "FKAs",
                 "FLs",
                 "FLACs",
-                "FLOPSs",
                 "FLOSSs",
                 "FMCs",
                 "FMOs",
@@ -2928,7 +2911,6 @@ namespace TitleCaser.Business
                 "LIFs",
                 "LIFOs",
                 "LILOs",
-                "LIPs",
                 "LISPs",
                 "LKMLs",
                 "LLMs",
@@ -2953,7 +2935,6 @@ namespace TitleCaser.Business
                 "LZWs",
                 "MAs",
                 "MACs",
-                "MANs",
                 "MANETs",
                 "MAPIs",
                 "MBAs",
@@ -3114,7 +3095,6 @@ namespace TitleCaser.Business
                 "NetBIOSs",
                 "NetBTs",
                 "OASISs",
-                "OATs",
                 "OBSAIs",
                 "OCDs",
                 "ODBCs",
@@ -3386,7 +3366,6 @@ namespace TitleCaser.Business
                 "SLMs",
                 "SLOCs",
                 "SMAs",
-                "SMARTs",
                 "SMBs",
                 "SMBIOSs",
                 "SMEs",
@@ -3487,11 +3466,9 @@ namespace TitleCaser.Business
                 "TTSs",
                 "TTYs",
                 "TUCOWSs",
-                "TUGs",
                 "TWAINs",
                 "TYTs",
                 "Tcls",
-                "The Feds",
                 "UAAGs",
                 "UACs",
                 "UARTs",
@@ -3603,7 +3580,6 @@ namespace TitleCaser.Business
                 "WORs",
                 "WORAs",
                 "WOREs",
-                "WORMs",
                 "WPAs",
                 "WPADs",
                 "WPANs",
@@ -3677,7 +3653,6 @@ namespace TitleCaser.Business
                 "iSCSIs",
                 "iSNSs",
                 "kHzs",
-                "mins",
                 "p. m.s",
                 "qWaves",
                 "e.g.s",
@@ -3792,7 +3767,6 @@ namespace TitleCaser.Business
                 "amoled",
                 "amqp",
                 "amr",
-                "ann",
                 "ansi",
                 "ant",
                 "aop",
@@ -3855,7 +3829,6 @@ namespace TitleCaser.Business
                 "bcnf",
                 "bcp",
                 "bd",
-                "beep",
                 "ber",
                 "bfa",
                 "bfd",
@@ -4067,7 +4040,6 @@ namespace TitleCaser.Business
                 "dob",
                 "docsis",
                 "dod",
-                "doe",
                 "doj",
                 "dom",
                 "dp",
@@ -4198,7 +4170,6 @@ namespace TitleCaser.Business
                 "fka",
                 "fl",
                 "flac",
-                "flops",
                 "floss",
                 "fmc",
                 "fmo",
@@ -4457,7 +4428,6 @@ namespace TitleCaser.Business
                 "lif",
                 "lifo",
                 "lilo",
-                "lip",
                 "lisp",
                 "lkml",
                 "llm",
@@ -4482,7 +4452,6 @@ namespace TitleCaser.Business
                 "lzw",
                 "ma",
                 "mac",
-                "man",
                 "manet",
                 "mapi",
                 "mba",
@@ -4512,7 +4481,6 @@ namespace TitleCaser.Business
                 "mdf",
                 "mdi",
                 "mdm",
-                "me",
                 "mf",
                 "mfa",
                 "mfc",
@@ -4649,7 +4617,6 @@ namespace TitleCaser.Business
                 "netbios",
                 "netbt",
                 "oasis",
-                "oat",
                 "obsai",
                 "ocd",
                 "odbc",
@@ -4925,7 +4892,6 @@ namespace TitleCaser.Business
                 "sloc",
                 "sm",
                 "sma",
-                "smart",
                 "smb",
                 "smbios",
                 "sme",
@@ -5028,11 +4994,9 @@ namespace TitleCaser.Business
                 "tts",
                 "tty",
                 "tucows",
-                "tug",
                 "twain",
                 "tyt",
                 "tcl",
-                "the fed",
                 "uaag",
                 "uac",
                 "uart",
@@ -5146,7 +5110,6 @@ namespace TitleCaser.Business
                 "wor",
                 "wora",
                 "wore",
-                "worm",
                 "wpa",
                 "wpad",
                 "wpan",
@@ -5223,7 +5186,6 @@ namespace TitleCaser.Business
                 "iscsi",
                 "isns",
                 "khz",
-                "min",
                 "p. m.",
                 "qwave",
                 "e.g.",
@@ -5331,7 +5293,6 @@ namespace TitleCaser.Business
                 "amoleds",
                 "amqps",
                 "amrs",
-                "anns",
                 "ansis",
                 "ants",
                 "aops",
@@ -5396,7 +5357,6 @@ namespace TitleCaser.Business
                 "bcps",
                 "bds",
                 "bes",
-                "beeps",
                 "bers",
                 "bfas",
                 "bfds",
@@ -5597,7 +5557,6 @@ namespace TitleCaser.Business
                 "dobs",
                 "docsiss",
                 "dods",
-                "does",
                 "dojs",
                 "doms",
                 "dps",
@@ -5728,7 +5687,6 @@ namespace TitleCaser.Business
                 "fkas",
                 "fls",
                 "flacs",
-                "flopss",
                 "flosss",
                 "fmcs",
                 "fmos",
@@ -5976,7 +5934,6 @@ namespace TitleCaser.Business
                 "lifs",
                 "lifos",
                 "lilos",
-                "lips",
                 "lisps",
                 "lkmls",
                 "llms",
@@ -6001,7 +5958,6 @@ namespace TitleCaser.Business
                 "lzws",
                 "mas",
                 "macs",
-                "mans",
                 "manets",
                 "mapis",
                 "mbas",
@@ -6162,7 +6118,6 @@ namespace TitleCaser.Business
                 "netbioss",
                 "netbts",
                 "oasiss",
-                "oats",
                 "obsais",
                 "ocds",
                 "odbcs",
@@ -6434,7 +6389,6 @@ namespace TitleCaser.Business
                 "slms",
                 "slocs",
                 "smas",
-                "smarts",
                 "smbs",
                 "smbioss",
                 "smes",
@@ -6535,11 +6489,9 @@ namespace TitleCaser.Business
                 "ttss",
                 "ttys",
                 "tucowss",
-                "tugs",
                 "twains",
                 "tyts",
                 "tcls",
-                "the feds",
                 "uaags",
                 "uacs",
                 "uarts",
@@ -6651,7 +6603,6 @@ namespace TitleCaser.Business
                 "wors",
                 "woras",
                 "wores",
-                "worms",
                 "wpas",
                 "wpads",
                 "wpans",
@@ -6725,7 +6676,6 @@ namespace TitleCaser.Business
                 "iscsis",
                 "isnss",
                 "khzs",
-                "mins",
                 "p. m.s",
                 "qwaves",
                 "e.g.s",
@@ -7186,6 +7136,9 @@ namespace TitleCaser.Business
                 "benzol",
                 "benzyl",
                 "bepelt",
+                "beep",
+                "beeps",
+                "beeped",
                 "berain",
                 "berate",
                 "beray",
@@ -11327,6 +11280,7 @@ namespace TitleCaser.Business
                 "esture",
                 "-et",
                 "etaac",
+                "etc",
                 "etch",
                 "etched",
                 "etcher",
@@ -15789,6 +15743,7 @@ namespace TitleCaser.Business
                 "mellic",
                 "mellow",
                 "melne",
+                "tis",
                 "melody",
                 "meloe",
                 "melon",
@@ -17464,6 +17419,8 @@ namespace TitleCaser.Business
                 "istle",
                 "isuret",
                 "it",
+                "it's",
+                "it'll",
                 "itala",
                 "italic",
                 "itched",
@@ -27766,6 +27723,7 @@ namespace TitleCaser.Business
                 "tufty",
                 "tugged",
                 "tug",
+                "tugs",
                 "tugan",
                 "tugger",
                 "tulle",
@@ -50077,6 +50035,7 @@ namespace TitleCaser.Business
                 "whalls",
                 "whallys",
                 "whames",
+                "wham",
                 "whans",
                 "whangs",
                 "whaps",

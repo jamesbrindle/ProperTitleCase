@@ -8,25 +8,33 @@ A solution to convert a string, or list of strings to 'proper' title case. It at
 ## Example Usage:
 
 ```
-List<string> titles = File.ReadAllLines(@"D:\Desktop\Folder Structure.csv").ToList();
+List<string> titles = File.ReadAllLines(@"C:\Temp\test.csv").ToList();
 
 List<string> additionalAbbreviations = new List<string>
 {
-    "PSMT",
+    "Psmt",
+    "CCGS",
+    "BBA"
 };
 
-var processedTitles = TitleCaseConverter.ToProperTitleCase(titles, additionalAbbreviations);
+var processedTitles = TitleCaseConverter.ToProperTitleCase(
+    titles, 
+    new TitleCaseConverter.Options 
+    { 
+        AdditionalAbbreviations = additionalAbbreviations 
+    });
 
 foreach (var title in processedTitles)
     Console.WriteLine(title);
 ```
 
-## Parameters
+## Options
 
-* additionalAbbreviations (List<string>)
-* lookupCommonAbbreviations (boolean)
-* keepTypicalAllLowers (boolean)
-* formatMeasurements (boolean)
+* AdditionalAbbreviations (List<string>)
+* LookupCommonAbbreviations (boolean)
+* KeepTypicalAllLowers (boolean)
+* FormatMeasurements (boolean)
+* MaxDictionaryLookupWordLength (int [0 to disable])
 
 ### Additional Abbreviations
 
