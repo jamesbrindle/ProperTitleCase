@@ -81,14 +81,37 @@ namespace TitleCaser
         {
             if (btnSave.Enabled)
             {
-                if (MessageBox.Show(
-                    "You have unsaved changed. Are you sure you wish to close and lose those changes?",
+                var result = MessageBox.Show(
+                    "You have unsaved changed. Do you want to save these changes?",
                     "Exit?",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question) == DialogResult.No)
+                    MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
+                    {
+                        try
+                        {
+                            ConfigManager.WriteToXmlFile<ConfigModel>(saveFileDialog.FileName, GetConfigForSave());
+                        }
+                        catch (Exception ex)
+                        {
+                            e.Cancel = true;
+
+                            MessageBox.Show(
+                               $"Unable to save file. {ex.Message}",
+                               "Config File Save Error",
+                               MessageBoxButtons.OK);
+                        }
+                    }
+                    else
+                        e.Cancel = true;
+                }
+                else if (result == DialogResult.Cancel)
                 {
                     e.Cancel = true;
-                }
+                }               
             }
         }
 
@@ -116,6 +139,22 @@ namespace TitleCaser
             btnReset.Enabled = true;
             btnLoad.Enabled = true;
             btnCopyText.Enabled = true;
+        }
+
+        private ConfigModel GetConfigForSave()
+        {
+            return new ConfigModel
+            {
+                Titles = tbTitles.Text,
+                AdditionalAbbreviations = tbAdditionalAbbr.Text,
+                ProcessCommonAbbreviations = cbCommonAbbr.Checked,
+                RemoveStartEndEndQuotes = cbRemoveStartAndEndQuotes.Checked,
+                FormatMeasurments = cbMeasurements.Checked,
+                RemoveDoubleSymbols = cbRemoveDoubleSymbols.Checked,
+                KeepTypicalLowercase = cbTyicalLowercase.Checked,
+                DictionaryLookup = cbDictionaryLookup.Checked,
+                MaxDictionaryLookupLetters = Convert.ToInt32((string)cbMaxLettersDictionaryLookup.SelectedItem)
+            };
         }
 
         internal void SetDictionaryLookup(bool enabled)
@@ -326,7 +365,7 @@ namespace TitleCaser
                     SetProcessing(true);
                     ThreadPool.QueueUserWorkItem(delegate
                     {
-                        string titles = Extensions.ReadFileAsUtf8(m_loadFromFilePath[0]);
+                        string titles = Extensions.ReadFileAsUtf8(files[0]);
                         SetTitles(titles);
                         SetProcessing(false);
                     });
@@ -427,21 +466,8 @@ namespace TitleCaser
             if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 try
-                {
-                    var config = new ConfigModel
-                    {
-                        Titles = tbTitles.Text,
-                        AdditionalAbbreviations = tbAdditionalAbbr.Text,
-                        ProcessCommonAbbreviations = cbCommonAbbr.Checked,
-                        RemoveStartEndEndQuotes = cbRemoveStartAndEndQuotes.Checked,
-                        FormatMeasurments = cbMeasurements.Checked,
-                        RemoveDoubleSymbols = cbRemoveDoubleSymbols.Checked,
-                        KeepTypicalLowercase = cbTyicalLowercase.Checked,
-                        DictionaryLookup = cbDictionaryLookup.Checked,
-                        MaxDictionaryLookupLetters = Convert.ToInt32((string)cbMaxLettersDictionaryLookup.SelectedItem)
-                    };
-
-                    ConfigManager.WriteToXmlFile<ConfigModel>(saveFileDialog.FileName, config);
+                {                    
+                    ConfigManager.WriteToXmlFile<ConfigModel>(saveFileDialog.FileName, GetConfigForSave());
                     btnSave.Enabled = false;
                     UnselectTextBoxes();
                 }

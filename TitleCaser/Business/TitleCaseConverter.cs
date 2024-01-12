@@ -135,58 +135,46 @@ namespace TitleCaser.Business
             {
                 if (!string.IsNullOrWhiteSpace(title))
                 {
-                    var words = Regex.Split(title.ToLower(), "([ / - —])");
-                    var processedWords = words.Select(word => ProcessWord(word, textInfo, options)).ToArray();
+                    // First pass - split words by space, hyphen, long hyphen and forward slash and back slash
+                    var words = Regex.Split(title.ToLower(), "(\\|/|\\s|-|—)");
+                    var processedWords = words.Select(word => ProcessWordMultiCharacterSplit(word, textInfo, options)).ToArray();
 
-                    // Apply measurement formatting if specified.
-                    if (options.FormatMeasurements)
-                    {
-                        processedTitles.Add(
-                            FormatMeasurementString(
-                                CleanedOutput(
-                                    string.Join("", processedWords),
-                                    options.RemoveStartEndQuotesOnClean,
-                                    options.RemoveDoubleSymbolsOnClean)));
-                    }
-                    else
-                    {
-                        processedTitles.Add(
-                            CleanedOutput(
-                                string.Join("", processedWords),
-                                options.RemoveStartEndQuotesOnClean,
-                                options.RemoveDoubleSymbolsOnClean));
-                    }
+                    // Second pass - split words by space only
+                    words = Regex.Split(string.Join("", processedWords), "(\\s)");
+                    processedWords = words.Select(word => ProcessWordSpaceOnlySplit(word)).ToArray();
+
+                    // Format any measurments
+                    string formattedTitle = options.FormatMeasurements ? FormatMeasurementString(string.Join("", processedWords)) : title;
+
+                    // Clean the title
+                    formattedTitle = CleanTitle(formattedTitle, options.RemoveStartEndQuotesOnClean, options.RemoveDoubleSymbolsOnClean);
+
+                    processedTitles.Add(formattedTitle);
                 }
             }
 
             return processedTitles;
         }
 
-        // Processes a single word for title casing considering various conditions.
-        private static string ProcessWord(
+        // (First pass) Processes a single word for title casing considering various conditions, with each word split by spaces, forward slash, backward slash, hyphen or long hypen
+        private static string ProcessWordMultiCharacterSplit(
             string word,
             TextInfo textInfo,
             Options options = default)
         {
             word = word.Replace("’", "'").Replace("“", "\"").Replace("”", "\"");
 
-            // Converts emails to lowercase.
-            if (IsEmail(word)) return word.ToLower();
-
-            // Converts URL web addresses to lowercase.
-            if (IsUrl(word)) return word.ToLower();
-
             // Converts ordinal numbers to lowercase.
             if (IsOrdinalNumber(word)) return word.ToLower();
+
+            // Converts words containing numbers or special characters to uppercase.
+            if (WordContainsNumbersOrSpecialCharacters(word)) return word.ToUpper();
 
             // Keeps certain words in lowercase if specified.
             if (options.KeepTypicalAllLowers && Lookups.LowercaseHashSet.Contains(word.ToLower())) return word.ToLower();
 
             // Converts day or month abbreviations to title case.
             if (IsDayOrMonthAbbreviation(word)) return textInfo.ToTitleCase(word.ToLower());
-
-            // Converts words containing numbers or special characters to uppercase.
-            if (WordContainsNumbersOrSpecialCharacters(word)) return word.ToUpper();
 
             // Handles abbreviations and formats them accordingly.
             if (IsAbbreviation(word, options.AdditionalAbbreviations, options.LookupCommonAbbreviations, out string formattedAbbreviation)) return formattedAbbreviation;
@@ -202,8 +190,24 @@ namespace TitleCaser.Business
             return textInfo.ToTitleCase(word.ToLower());
         }
 
+        // (Second pass) Processes a single word for title casing considering various conditions, with each word split by spaces, forward slash, backward slash, hyphen or long hypen
+        private static string ProcessWordSpaceOnlySplit(
+            string word)
+        {
+            // Converts emails to lowercase.
+            if (IsEmail(word)) return word.ToLower();
+
+            // Converts URL web addresses to lowercase.
+            if (IsUrl(word)) return word.ToLower();
+
+            // Converts words containing numbers or special characters to uppercase.
+            if (WordContainsNumbersOrSpecialCharacters(word)) return word.ToUpper();
+
+            return word;
+        }
+
         // Cleans the output string from extra spaces and misplaced quotation marks.
-        private static string CleanedOutput(string text, bool removeStartEndQuotesOnClean, bool removeDoubleSymbols)
+        private static string CleanTitle(string text, bool removeStartEndQuotesOnClean, bool removeDoubleSymbols)
         {
             if (string.IsNullOrEmpty(text))
                 return string.Empty;
@@ -522,7 +526,7 @@ namespace TitleCaser.Business
                         Lookups.SmallWordsHash.Remove(abbreviation.ToLower());
                 }
             }
-        }      
+        }
 
         /// <summary>
         /// A class containing re-used word lookups for determining what to convert to upercase or lowercase.
@@ -14509,6 +14513,7 @@ namespace TitleCaser.Business
                 "laymen",
                 "layman",
                 "layner",
+                "layout",
                 "lazar",
                 "feere",
                 "feese",
