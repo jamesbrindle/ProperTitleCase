@@ -16,7 +16,6 @@ namespace TitleCaser
         static void Main(string[] args)
         {
             SetProcessDPIAware();
-
 #if RELEASE
             CheckForIllegalCrossThreadCalls = false;
 #endif
