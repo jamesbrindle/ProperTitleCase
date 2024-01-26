@@ -71,7 +71,7 @@
             this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.65461F));
             this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.34539F));
-            this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 16F));
+            this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 17F));
             this.tblLayout.Controls.Add(this.gpOptions, 3, 3);
             this.tblLayout.Controls.Add(this.pnlTitles, 1, 0);
             this.tblLayout.Controls.Add(this.pnlAdditionalAbbr, 3, 0);
@@ -109,7 +109,7 @@
             this.gpOptions.Margin = new System.Windows.Forms.Padding(1, 3, 1, 1);
             this.gpOptions.Name = "gpOptions";
             this.gpOptions.Padding = new System.Windows.Forms.Padding(0);
-            this.gpOptions.Size = new System.Drawing.Size(386, 218);
+            this.gpOptions.Size = new System.Drawing.Size(385, 218);
             this.gpOptions.TabIndex = 2;
             this.gpOptions.TabStop = false;
             this.gpOptions.Text = "Options";
@@ -271,7 +271,7 @@
             this.pnlAdditionalAbbr.Location = new System.Drawing.Point(537, 0);
             this.pnlAdditionalAbbr.Margin = new System.Windows.Forms.Padding(0);
             this.pnlAdditionalAbbr.Name = "pnlAdditionalAbbr";
-            this.pnlAdditionalAbbr.Size = new System.Drawing.Size(388, 59);
+            this.pnlAdditionalAbbr.Size = new System.Drawing.Size(387, 59);
             this.pnlAdditionalAbbr.TabIndex = 4;
             // 
             // lblAdditionalAbbr
@@ -298,7 +298,7 @@
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
             this.tblLayout.SetRowSpan(this.panel1, 2);
-            this.panel1.Size = new System.Drawing.Size(388, 61);
+            this.panel1.Size = new System.Drawing.Size(387, 61);
             this.panel1.TabIndex = 5;
             // 
             // btnSave
@@ -340,7 +340,7 @@
             this.btnProcess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnProcess.Location = new System.Drawing.Point(314, 12);
             this.btnProcess.Name = "btnProcess";
-            this.btnProcess.Size = new System.Drawing.Size(74, 35);
+            this.btnProcess.Size = new System.Drawing.Size(73, 35);
             this.btnProcess.TabIndex = 2;
             this.btnProcess.Text = "Process";
             this.btnProcess.UseVisualStyleBackColor = true;
@@ -365,6 +365,7 @@
             this.tbTitles.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbTitles.Location = new System.Drawing.Point(15, 59);
             this.tbTitles.Margin = new System.Windows.Forms.Padding(0);
+            this.tbTitles.MaxLength = 999999999;
             this.tbTitles.Multiline = true;
             this.tbTitles.Name = "tbTitles";
             this.tblLayout.SetRowSpan(this.tbTitles, 4);
@@ -385,7 +386,7 @@
             this.tbAdditionalAbbr.Margin = new System.Windows.Forms.Padding(0);
             this.tbAdditionalAbbr.Multiline = true;
             this.tbAdditionalAbbr.Name = "tbAdditionalAbbr";
-            this.tbAdditionalAbbr.Size = new System.Drawing.Size(388, 199);
+            this.tbAdditionalAbbr.Size = new System.Drawing.Size(387, 199);
             this.tbAdditionalAbbr.TabIndex = 1;
             this.tbAdditionalAbbr.TextChanged += new System.EventHandler(this.TextBox_TextChanged);
             this.tbAdditionalAbbr.DragDrop += new System.Windows.Forms.DragEventHandler(this.TextBox_DragDrop);
