@@ -47,6 +47,11 @@ namespace TitleCaser
             public bool RemoveDoubleSymbolsOnClean { get; set; } = true;
 
             /// <summary>
+            /// Remove any empty lines
+            /// </summary>
+            public bool RemoveEmptyLines { get; set; } = true;
+
+            /// <summary>
             /// This class includes an English dictionary containing words of up to 6 characters. If the word isn't in the the english dictionary and it's this many characters
             /// or less, it will be assumed to be an abbreviation / acronym. You can set this value to 0 to disable this lookup.
             /// </summary>
@@ -133,24 +138,24 @@ namespace TitleCaser
             // Iterate through each title and process each word.
             foreach (string title in input)
             {
-                if (!string.IsNullOrWhiteSpace(title))
-                {
-                    // First pass - split words by space, hyphen, long hyphen and forward slash and back slash
-                    var words = Regex.Split(title.ToLower(), "(\\|/|\\s|-|—)");
-                    var processedWords = words.Select(word => ProcessWordMultiCharacterSplit(word, textInfo, options)).ToArray();
+                if (options.RemoveEmptyLines && string.IsNullOrWhiteSpace(title))
+                    continue;
 
-                    // Second pass - split words by space only
-                    words = Regex.Split(string.Join("", processedWords), "(\\s)");
-                    processedWords = words.Select(word => ProcessWordSpaceOnlySplit(word)).ToArray();
+                // First pass - split words by space, hyphen, long hyphen and forward slash and back slash
+                var words = Regex.Split(title.ToLower(), "(\\|/|\\s|-|—)");
+                var processedWords = words.Select(word => ProcessWordMultiCharacterSplit(word, textInfo, options)).ToArray();
 
-                    // Format any measurments
-                    string formattedTitle = options.FormatMeasurements ? FormatMeasurementString(string.Join("", processedWords)) : title;
+                // Second pass - split words by space only
+                words = Regex.Split(string.Join("", processedWords), "(\\s)");
+                processedWords = words.Select(word => ProcessWordSpaceOnlySplit(word)).ToArray();
 
-                    // Clean the title
-                    formattedTitle = CleanTitle(formattedTitle, options.RemoveStartEndQuotesOnClean, options.RemoveDoubleSymbolsOnClean);
+                // Format any measurments
+                string formattedTitle = options.FormatMeasurements ? FormatMeasurementString(string.Join("", processedWords)) : title;
 
-                    processedTitles.Add(formattedTitle);
-                }
+                // Clean the title
+                formattedTitle = CleanTitle(formattedTitle, options.RemoveStartEndQuotesOnClean, options.RemoveDoubleSymbolsOnClean);
+
+                processedTitles.Add(formattedTitle);
             }
 
             return processedTitles;

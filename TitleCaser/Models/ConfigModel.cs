@@ -31,5 +31,7 @@ namespace TitleCaser.Models
         public bool DictionaryLookup { get; set; } = true;
 
         public int MaxDictionaryLookupLetters { get; set; } = 4;
+
+        public bool RemoveEmptyLines { get; set; } = true;
     }
 }

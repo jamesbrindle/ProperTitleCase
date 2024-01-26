@@ -125,6 +125,7 @@ namespace TitleCaser
             cbCommonAbbr.Checked = true;
             cbMeasurements.Checked = true;
             cbTyicalLowercase.Checked = true;
+            cbRemoveEmptyLines.Checked = true;
             cbRemoveDoubleSymbols.Checked = true;
             cbRemoveStartAndEndQuotes.Checked = true;
             cbDictionaryLookup.Checked = true;
@@ -153,7 +154,8 @@ namespace TitleCaser
                 RemoveDoubleSymbols = cbRemoveDoubleSymbols.Checked,
                 KeepTypicalLowercase = cbTyicalLowercase.Checked,
                 DictionaryLookup = cbDictionaryLookup.Checked,
-                MaxDictionaryLookupLetters = Convert.ToInt32((string)cbMaxLettersDictionaryLookup.SelectedItem)
+                MaxDictionaryLookupLetters = Convert.ToInt32((string)cbMaxLettersDictionaryLookup.SelectedItem),
+                RemoveEmptyLines = cbRemoveEmptyLines.Checked
             };
         }
 
@@ -202,6 +204,7 @@ namespace TitleCaser
                 lblMax.InvokeRequired ||
                 lblLetters.InvokeRequired ||
                 cbTyicalLowercase.InvokeRequired ||
+                cbRemoveEmptyLines.InvokeRequired ||
                 pbPreloader.InvokeRequired)
             {
                 var d = new SetProcessingDelegate(SetProcessing);
@@ -226,6 +229,7 @@ namespace TitleCaser
                     cbMeasurements.Enabled = false;
                     cbRemoveDoubleSymbols.Enabled = false;
                     cbTyicalLowercase.Enabled = false;
+                    cbRemoveEmptyLines.Enabled = false;
                     cbDictionaryLookup.Enabled = false;
                     pbPreloader.Visible = true;
                     SetDictionaryLookup(false);
@@ -246,6 +250,7 @@ namespace TitleCaser
                     cbMeasurements.Enabled = true;
                     cbRemoveDoubleSymbols.Enabled = true;
                     cbTyicalLowercase.Enabled = true;
+                    cbRemoveEmptyLines.Enabled = true;
                     pbPreloader.Visible = false;
                     cbDictionaryLookup.Enabled = true;
                     SetDictionaryLookup(cbDictionaryLookup.Checked);
@@ -444,6 +449,7 @@ namespace TitleCaser
                         cbTyicalLowercase.Checked = config.KeepTypicalLowercase;
                         cbDictionaryLookup.Checked = config.DictionaryLookup;
                         cbMaxLettersDictionaryLookup.SelectedItem = config.MaxDictionaryLookupLetters.ToString();
+                        cbRemoveEmptyLines.Checked = config.RemoveEmptyLines;
 
                         SetDictionaryLookup(cbDictionaryLookup.Checked);
 
@@ -492,12 +498,12 @@ namespace TitleCaser
             bool formatMeasurements = cbMeasurements.Checked;
             bool keepTypicalLowercaseWords = cbTyicalLowercase.Checked;
             bool removeDoubleSymbols = cbRemoveDoubleSymbols.Checked;
-            int maxDictionaryLookupLetters = !cbDictionaryLookup.Checked ? 0 : Convert.ToInt32((string)cbMaxLettersDictionaryLookup.SelectedItem);
+            bool removeEmptyLines = cbRemoveEmptyLines.Checked;
+            int maxDictionaryLookupLetters = !cbDictionaryLookup.Checked ? 0 : Convert.ToInt32((string)cbMaxLettersDictionaryLookup.SelectedItem);            
 
             new Thread((ThreadStart)delegate
             {
                 var titlesList = titles.Replace("\r", "").Split('\n').ToList();
-                titlesList.Remove("");
 
                 additionalAbbreviations = string.Join("\r\n", additionalAbbreviations.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries))
                                                 .Replace("\r\n ", "\r\n")
@@ -518,7 +524,8 @@ namespace TitleCaser
                     FormatMeasurements = formatMeasurements,
                     RemoveStartEndQuotesOnClean = removeStartAndEndQuotes,
                     RemoveDoubleSymbolsOnClean = removeStartAndEndQuotes,
-                    MaxDictionaryLookupWordLength = maxDictionaryLookupLetters
+                    MaxDictionaryLookupWordLength = maxDictionaryLookupLetters,
+                    RemoveEmptyLines = removeEmptyLines
                 };
 
                 var formattedTitles = TitleCaseConverter.ToProperTitleCase(titlesList, options);
