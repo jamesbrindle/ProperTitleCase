@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TitleCaser.Properties {
+namespace TitleCase.Properties {
     using System;
     
     

@@ -1,4 +1,4 @@
-﻿namespace TitleCaser
+﻿namespace TitleCase
 {
     partial class MainForm
     {
@@ -256,7 +256,7 @@
             // 
             // pbPreloader
             // 
-            this.pbPreloader.Image = global::TitleCaser.Properties.Resources.small_preloader;
+            this.pbPreloader.Image = global::TitleCase.Properties.Resources.small_preloader;
             this.pbPreloader.Location = new System.Drawing.Point(487, 32);
             this.pbPreloader.Name = "pbPreloader";
             this.pbPreloader.Size = new System.Drawing.Size(20, 20);

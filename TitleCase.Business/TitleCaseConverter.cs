@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace TitleCaser
+namespace TitleCase.Business
 {
     /// <summary>
     /// Class providing functions for advanced 'Title Case' string conversion.
@@ -545,7 +545,7 @@ namespace TitleCaser
             /// </summary>
             internal static class RegularExpression
             {
-                internal static readonly string MeasurmentRecognition = @"(?<!\w)(\d+(\.\d+)?)\s?([a-zA-Z²³]+)";
+                internal static readonly string MeasurmentRecognition = @"(?<!\w)(\d+(\.\d+)?)\s?([a-zA-Z²³]+)\s?";
                 internal static readonly Regex Url = new Regex(@"(?i)(\b(?:https?|ftp|ftps|sftp|mailto|telnet|ssh|ldap|gopher|news|nntp|tel|ircs?|mms|rtsp|xmpp|sip|file|ws):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])");
                 internal static readonly Regex OrdinalNumber = new Regex(@"\b(1st|2nd|3rd|([4-9]|0)th|[1-9]\d{1,}th)\b");
                 internal static readonly Regex Email = new Regex(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");

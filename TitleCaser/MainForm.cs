@@ -7,10 +7,10 @@ using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
 using TitleCase.Helpers;
-using TitleCaser.Business;
-using TitleCaser.Models;
+using TitleCase.Business;
+using TitleCase.Models;
 
-namespace TitleCaser
+namespace TitleCase
 {
     public partial class MainForm : Form
     {

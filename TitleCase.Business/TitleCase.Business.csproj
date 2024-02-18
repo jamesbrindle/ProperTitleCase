@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B949B054-2F99-486B-A147-01AA235032FA}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ProperTitleCase</RootNamespace>
-    <AssemblyName>ProperTitleCase</AssemblyName>
+    <RootNamespace>TitleCase.Business</RootNamespace>
+    <AssemblyName>TitleCase.Business</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
