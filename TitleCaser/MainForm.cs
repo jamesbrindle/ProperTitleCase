@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
-using TitleCase.Helpers;
-using TitleCase.Business;
-using TitleCase.Models;
+using TitleCaser.Helpers;
+using TitleCaser.Business;
+using TitleCaser.Models;
 
-namespace TitleCase
+namespace TitleCaser
 {
     public partial class MainForm : Form
     {

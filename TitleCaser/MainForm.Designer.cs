@@ -1,4 +1,4 @@
-﻿namespace TitleCase
+﻿namespace TitleCaser
 {
     partial class MainForm
     {
@@ -72,7 +72,7 @@
             this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.65461F));
             this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.34539F));
-            this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 21F));
+            this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 22F));
             this.tblLayout.Controls.Add(this.gpOptions, 3, 3);
             this.tblLayout.Controls.Add(this.pnlTitles, 1, 0);
             this.tblLayout.Controls.Add(this.pnlAdditionalAbbr, 3, 0);
@@ -111,7 +111,7 @@
             this.gpOptions.Margin = new System.Windows.Forms.Padding(1, 3, 1, 1);
             this.gpOptions.Name = "gpOptions";
             this.gpOptions.Padding = new System.Windows.Forms.Padding(0);
-            this.gpOptions.Size = new System.Drawing.Size(384, 247);
+            this.gpOptions.Size = new System.Drawing.Size(383, 247);
             this.gpOptions.TabIndex = 2;
             this.gpOptions.TabStop = false;
             this.gpOptions.Text = "Options";
@@ -224,9 +224,9 @@
             this.cbMeasurements.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbMeasurements.Location = new System.Drawing.Point(10, 60);
             this.cbMeasurements.Name = "cbMeasurements";
-            this.cbMeasurements.Size = new System.Drawing.Size(241, 21);
+            this.cbMeasurements.Size = new System.Drawing.Size(303, 21);
             this.cbMeasurements.TabIndex = 1;
-            this.cbMeasurements.Text = "Format Measurements (i.e. kWh, m²)";
+            this.cbMeasurements.Text = "Format Measurements / Ordinals (i.e. kWh, m²)";
             this.cbMeasurements.UseVisualStyleBackColor = true;
             this.cbMeasurements.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             // 
@@ -256,7 +256,7 @@
             // 
             // pbPreloader
             // 
-            this.pbPreloader.Image = global::TitleCase.Properties.Resources.small_preloader;
+            this.pbPreloader.Image = global::TitleCaser.Properties.Resources.small_preloader;
             this.pbPreloader.Location = new System.Drawing.Point(487, 32);
             this.pbPreloader.Name = "pbPreloader";
             this.pbPreloader.Size = new System.Drawing.Size(20, 20);
@@ -284,7 +284,7 @@
             this.pnlAdditionalAbbr.Location = new System.Drawing.Point(534, 0);
             this.pnlAdditionalAbbr.Margin = new System.Windows.Forms.Padding(0);
             this.pnlAdditionalAbbr.Name = "pnlAdditionalAbbr";
-            this.pnlAdditionalAbbr.Size = new System.Drawing.Size(386, 59);
+            this.pnlAdditionalAbbr.Size = new System.Drawing.Size(385, 59);
             this.pnlAdditionalAbbr.TabIndex = 4;
             // 
             // lblAdditionalAbbr
@@ -311,7 +311,7 @@
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
             this.tblLayout.SetRowSpan(this.panel1, 2);
-            this.panel1.Size = new System.Drawing.Size(386, 62);
+            this.panel1.Size = new System.Drawing.Size(385, 62);
             this.panel1.TabIndex = 5;
             // 
             // btnSave
@@ -353,7 +353,7 @@
             this.btnProcess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnProcess.Location = new System.Drawing.Point(314, 13);
             this.btnProcess.Name = "btnProcess";
-            this.btnProcess.Size = new System.Drawing.Size(72, 35);
+            this.btnProcess.Size = new System.Drawing.Size(71, 35);
             this.btnProcess.TabIndex = 2;
             this.btnProcess.Text = "Process";
             this.btnProcess.UseVisualStyleBackColor = true;
@@ -399,7 +399,7 @@
             this.tbAdditionalAbbr.Margin = new System.Windows.Forms.Padding(0);
             this.tbAdditionalAbbr.Multiline = true;
             this.tbAdditionalAbbr.Name = "tbAdditionalAbbr";
-            this.tbAdditionalAbbr.Size = new System.Drawing.Size(386, 169);
+            this.tbAdditionalAbbr.Size = new System.Drawing.Size(385, 169);
             this.tbAdditionalAbbr.TabIndex = 1;
             this.tbAdditionalAbbr.TextChanged += new System.EventHandler(this.TextBox_TextChanged);
             this.tbAdditionalAbbr.DragDrop += new System.Windows.Forms.DragEventHandler(this.TextBox_DragDrop);

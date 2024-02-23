@@ -2,7 +2,7 @@
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace TitleCase.Business
+namespace TitleCaser.Business
 {
     /// <summary>
     /// Loads and save a configuration file

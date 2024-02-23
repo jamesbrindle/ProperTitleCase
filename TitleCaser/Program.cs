@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using TitleCase.Helpers;
+using TitleCaser.Helpers;
 
-namespace TitleCase
+namespace TitleCaser
 {
     internal static class Program
     {

@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace TitleCase.Helpers
+namespace TitleCaser.Helpers
 {
     /// <summary>
     /// Language specific function

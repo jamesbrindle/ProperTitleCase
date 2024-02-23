@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TitleCase.Models
+namespace TitleCaser.Models
 {
     /// <summary>
     /// Form configurations settings model - Serializable to be saved to XML File

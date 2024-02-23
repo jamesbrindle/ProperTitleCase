@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace TitleCase.Business
+namespace TitleCaser.Business
 {
     /// <summary>
     /// Class providing functions for advanced 'Title Case' string conversion.
