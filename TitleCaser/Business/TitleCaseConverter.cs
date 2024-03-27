@@ -68,6 +68,9 @@ namespace TitleCaser.Business
             this string input,
             Options options = default)
         {
+            if (options == null)
+                options = new Options();
+
             // Converts a single string to title case using the specified options.
             return ToProperTitleCase(
                 new List<string> { input },
@@ -84,6 +87,9 @@ namespace TitleCaser.Business
             this string[] input,
             Options options = default)
         {
+            if (options == null)
+                options = new Options();
+
             // Converts an array of strings to title case using the specified options.
             return ToProperTitleCase(
                 input.ToList(),
@@ -100,6 +106,9 @@ namespace TitleCaser.Business
             IEnumerable<string> input,
             Options options = default)
         {
+            if (options == null)
+                options = new Options();
+
             // Converts a collection of strings to title case using the specified options.
             IEnumerable<string> output =
                 ToProperTitleCase(
@@ -119,6 +128,9 @@ namespace TitleCaser.Business
             this List<string> input,
             Options options = default)
         {
+            if (options == null)
+                options = new Options();
+
             if (options.MaxDictionaryLookupWordLength > 6)
             {
                 throw new ApplicationException(
@@ -167,6 +179,9 @@ namespace TitleCaser.Business
             TextInfo textInfo,
             Options options = default)
         {
+            if (options == null)
+                options = new Options();
+
             word = word.Replace("’", "'").Replace("“", "\"").Replace("”", "\"");
 
             // Converts ordinal numbers to lowercase.
