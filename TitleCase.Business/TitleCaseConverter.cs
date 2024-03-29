@@ -150,7 +150,10 @@ namespace TitleCaser.Business
                 processedWords = words.Select(word => ProcessWordSpaceOnlySplit(word)).ToArray();
 
                 // Format any measurments
-                string formattedTitle = (options.FormatMeasurements ? FormatMeasurementString(string.Join(" ", processedWords)) : title).Replace("  ", " ");
+                string formattedTitle =
+                    (options.FormatMeasurements
+                        ? FormatMeasurementString(string.Join("", processedWords), options)
+                        : string.Join("", processedWords).Replace("  ", " "));
 
                 // Clean the title
                 formattedTitle = CleanTitle(formattedTitle, options.RemoveStartEndQuotesOnClean, options.RemoveDoubleSymbolsOnClean);
@@ -282,7 +285,7 @@ namespace TitleCaser.Business
         }
 
         // Formats a string that contains measurements (e.g., "5kg") to a standardized format.
-        public static string FormatMeasurementString(string input)
+        public static string FormatMeasurementString(string input, Options options)
         {
             // Uses regular expressions to identify and format measurement strings within the input.
             string result = Regex.Replace(input, Lookups.RegularExpression.MeasurmentRecognition, match =>
@@ -295,7 +298,12 @@ namespace TitleCaser.Business
                 string correctUnit = Lookups.Measurements.Find(u => u.Equals(unit, StringComparison.OrdinalIgnoreCase));
 
                 // Formats the measurement string or returns the original match if no unit is found.
-                return correctUnit != null ? $"{value}{correctUnit}" : match.Value;
+                string correctMeasurement = correctUnit != null ? $"{value}{correctUnit}" : match.Value;
+
+                if (options.AdditionalAbbreviations.Select(m => m.Trim()).ToList().Contains(correctMeasurement, StringComparer.OrdinalIgnoreCase))
+                    correctMeasurement = options.AdditionalAbbreviations.Select(m => m.Trim()).ToList().Find(u => u.Equals(correctMeasurement, StringComparison.OrdinalIgnoreCase));
+
+                return correctMeasurement;
             });
 
             return result;
