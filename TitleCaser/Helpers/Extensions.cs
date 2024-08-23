@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Text;
+using Microsoft.Experimental.IO;
 
 namespace System
 {
@@ -42,7 +43,7 @@ namespace System
             String original = String.Empty;
 
             // Open a StreamReader to read from the file. It starts with the assumption that the file's encoding is the system's default.
-            using (StreamReader sr = new StreamReader(fileName, Encoding.Default))
+            using (StreamReader sr = new StreamReader(LongPathCommon.NormalizeLongPath(fileName), Encoding.Default))
             {
                 // Read the entire file's content into the 'original' variable.
                 original = sr.ReadToEnd();
