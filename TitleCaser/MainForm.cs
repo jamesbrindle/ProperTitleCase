@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using TitleCaser.Helpers;
 using TitleCaser.Business;
 using TitleCaser.Models;
+using Microsoft.Experimental.IO;
 
 namespace TitleCaser
 {
@@ -64,7 +65,7 @@ namespace TitleCaser
 
             ThreadPool.QueueUserWorkItem(delegate
             {
-                if (File.Exists(m_loadFromFilePath[0]))
+                if (LongPathFile.Exists(m_loadFromFilePath[0]))
                 {
                     if (Path.GetExtension(m_loadFromFilePath[0]).ToLower().In(FileTypes.Text) ||
                         Path.GetExtension(m_loadFromFilePath[0]).ToLower().In(FileTypes.Csv))
