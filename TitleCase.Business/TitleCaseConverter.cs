@@ -56,6 +56,11 @@ namespace TitleCaser.Business
             /// or less, it will be assumed to be an abbreviation / acronym. You can set this value to 0 to disable this lookup.
             /// </summary>
             public int MaxDictionaryLookupWordLength { get; set; } = 4;
+
+            /// <summary>
+            /// Second Pass - Perform an additional pass on all text, split by spaces only
+            /// </summary>
+            public bool SecondPassWords { get; set; } = false;
         }
 
         /// <summary>
@@ -158,8 +163,11 @@ namespace TitleCaser.Business
                 var processedWords = words.Select(word => ProcessWordMultiCharacterSplit(word, textInfo, options)).ToArray();
 
                 // Second pass - split words by space only
-                words = Regex.Split(string.Join("", processedWords), "(\\s)");
-                processedWords = words.Select(word => ProcessWordSpaceOnlySplit(word)).ToArray();
+                if (options.SecondPassWords)
+                {
+                    words = Regex.Split(string.Join("", processedWords), "(\\s)");
+                    processedWords = words.Select(word => ProcessWordSpaceOnlySplit(word)).ToArray();
+                }
 
                 // Format any measurments
                 string formattedTitle =

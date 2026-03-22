@@ -56,6 +56,11 @@ namespace TitleCaser.Business
             /// or less, it will be assumed to be an abbreviation / acronym. You can set this value to 0 to disable this lookup.
             /// </summary>
             public int MaxDictionaryLookupWordLength { get; set; } = 4;
+
+            /// <summary>
+            /// Second Pass - Perform an additional pass on all text, split by spaces only
+            /// </summary>
+            public bool SecondPassWords { get; set; } = false;
         }
 
         /// <summary>
@@ -189,6 +194,9 @@ namespace TitleCaser.Business
 
             // Converts ordinal numbers to lowercase.
             if (IsOrdinalNumber(word)) return word.ToLower();
+
+            // Converts ordinal numbers to lowercase.
+            if (IsVersionString(word)) return word.ToLower();
 
             // Converts words containing numbers or special characters to uppercase.
             if (WordContainsNumbersOrSpecialCharacters(word)) return word.ToUpper();
@@ -350,6 +358,11 @@ namespace TitleCaser.Business
         private static bool IsOrdinalNumber(string word)
         {
             return Lookups.RegularExpression.OrdinalNumber.IsMatch(word);
+        }
+
+        private static bool IsVersionString(string word)
+        {
+            return Lookups.RegularExpression.VersionString.IsMatch(word);
         }
 
         // Checks if the provided word is typically kept in lowercase.
@@ -572,6 +585,7 @@ namespace TitleCaser.Business
                 internal static readonly Regex Url = new Regex(@"(?i)(\b(?:https?|ftp|ftps|sftp|mailto|telnet|ssh|ldap|gopher|news|nntp|tel|ircs?|mms|rtsp|xmpp|sip|file|ws):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])");
                 internal static readonly Regex OrdinalNumber = new Regex(@"\b(1st|2nd|3rd|([4-9]|0)th|[1-9]\d{1,}th)\b");
                 internal static readonly Regex Email = new Regex(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+                internal static readonly Regex VersionString = new Regex(@"^[vV]\d+(\.\d+)*$");
             }
 
             internal static string SpecialCharacters = "¬!\"£$%^&*() _+`’“”-=[]{};'#:@~,./<>?\\|";

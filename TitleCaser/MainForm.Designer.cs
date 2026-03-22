@@ -56,6 +56,7 @@
             this.tbAdditionalAbbr = new System.Windows.Forms.TextBox();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.cbSecondPass = new System.Windows.Forms.CheckBox();
             this.tblLayout.SuspendLayout();
             this.gpOptions.SuspendLayout();
             this.pnlTitles.SuspendLayout();
@@ -72,7 +73,7 @@
             this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.65461F));
             this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.34539F));
-            this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 23F));
             this.tblLayout.Controls.Add(this.gpOptions, 3, 3);
             this.tblLayout.Controls.Add(this.pnlTitles, 1, 0);
             this.tblLayout.Controls.Add(this.pnlAdditionalAbbr, 3, 0);
@@ -84,9 +85,9 @@
             this.tblLayout.Name = "tblLayout";
             this.tblLayout.RowCount = 6;
             this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
-            this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.23809F));
+            this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35.47619F));
             this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-            this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 59.76191F));
+            this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 64.52381F));
             this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tblLayout.Size = new System.Drawing.Size(942, 546);
@@ -97,6 +98,7 @@
             this.gpOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gpOptions.Controls.Add(this.cbSecondPass);
             this.gpOptions.Controls.Add(this.cbRemoveEmptyLines);
             this.gpOptions.Controls.Add(this.lblLetters);
             this.gpOptions.Controls.Add(this.lblMax);
@@ -107,11 +109,11 @@
             this.gpOptions.Controls.Add(this.cbTyicalLowercase);
             this.gpOptions.Controls.Add(this.cbMeasurements);
             this.gpOptions.Controls.Add(this.cbCommonAbbr);
-            this.gpOptions.Location = new System.Drawing.Point(535, 236);
+            this.gpOptions.Location = new System.Drawing.Point(534, 216);
             this.gpOptions.Margin = new System.Windows.Forms.Padding(1, 3, 1, 1);
             this.gpOptions.Name = "gpOptions";
             this.gpOptions.Padding = new System.Windows.Forms.Padding(0);
-            this.gpOptions.Size = new System.Drawing.Size(383, 247);
+            this.gpOptions.Size = new System.Drawing.Size(383, 267);
             this.gpOptions.TabIndex = 2;
             this.gpOptions.TabStop = false;
             this.gpOptions.Text = "Options";
@@ -251,7 +253,7 @@
             this.pnlTitles.Location = new System.Drawing.Point(15, 0);
             this.pnlTitles.Margin = new System.Windows.Forms.Padding(0);
             this.pnlTitles.Name = "pnlTitles";
-            this.pnlTitles.Size = new System.Drawing.Size(504, 59);
+            this.pnlTitles.Size = new System.Drawing.Size(503, 59);
             this.pnlTitles.TabIndex = 3;
             // 
             // pbPreloader
@@ -281,7 +283,7 @@
             // 
             this.pnlAdditionalAbbr.Controls.Add(this.lblAdditionalAbbr);
             this.pnlAdditionalAbbr.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlAdditionalAbbr.Location = new System.Drawing.Point(534, 0);
+            this.pnlAdditionalAbbr.Location = new System.Drawing.Point(533, 0);
             this.pnlAdditionalAbbr.Margin = new System.Windows.Forms.Padding(0);
             this.pnlAdditionalAbbr.Name = "pnlAdditionalAbbr";
             this.pnlAdditionalAbbr.Size = new System.Drawing.Size(385, 59);
@@ -307,7 +309,7 @@
             this.panel1.Controls.Add(this.btnProcess);
             this.panel1.Controls.Add(this.btnCopyText);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(534, 484);
+            this.panel1.Location = new System.Drawing.Point(533, 484);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
             this.tblLayout.SetRowSpan(this.panel1, 2);
@@ -383,7 +385,7 @@
             this.tbTitles.Name = "tbTitles";
             this.tblLayout.SetRowSpan(this.tbTitles, 4);
             this.tbTitles.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbTitles.Size = new System.Drawing.Size(504, 471);
+            this.tbTitles.Size = new System.Drawing.Size(503, 471);
             this.tbTitles.TabIndex = 0;
             this.tbTitles.WordWrap = false;
             this.tbTitles.TextChanged += new System.EventHandler(this.TextBox_TextChanged);
@@ -395,11 +397,11 @@
             this.tbAdditionalAbbr.AllowDrop = true;
             this.tbAdditionalAbbr.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbAdditionalAbbr.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbAdditionalAbbr.Location = new System.Drawing.Point(534, 59);
+            this.tbAdditionalAbbr.Location = new System.Drawing.Point(533, 59);
             this.tbAdditionalAbbr.Margin = new System.Windows.Forms.Padding(0);
             this.tbAdditionalAbbr.Multiline = true;
             this.tbAdditionalAbbr.Name = "tbAdditionalAbbr";
-            this.tbAdditionalAbbr.Size = new System.Drawing.Size(385, 169);
+            this.tbAdditionalAbbr.Size = new System.Drawing.Size(385, 149);
             this.tbAdditionalAbbr.TabIndex = 1;
             this.tbAdditionalAbbr.TextChanged += new System.EventHandler(this.TextBox_TextChanged);
             this.tbAdditionalAbbr.DragDrop += new System.Windows.Forms.DragEventHandler(this.TextBox_DragDrop);
@@ -414,6 +416,16 @@
             // 
             this.openFileDialog.FileName = "TitleCase_Config.xml";
             this.openFileDialog.Filter = "Title Case Config files (*.xml)|*.xml";
+            // 
+            // cbSecondPass
+            // 
+            this.cbSecondPass.AutoSize = true;
+            this.cbSecondPass.Location = new System.Drawing.Point(10, 240);
+            this.cbSecondPass.Name = "cbSecondPass";
+            this.cbSecondPass.Size = new System.Drawing.Size(230, 21);
+            this.cbSecondPass.TabIndex = 10;
+            this.cbSecondPass.Text = "Perform second pass on all words";
+            this.cbSecondPass.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -475,6 +487,7 @@
         private System.Windows.Forms.Label lblMax;
         private System.Windows.Forms.CheckBox cbDictionaryLookup;
         private System.Windows.Forms.CheckBox cbRemoveEmptyLines;
+        private System.Windows.Forms.CheckBox cbSecondPass;
     }
 }
 

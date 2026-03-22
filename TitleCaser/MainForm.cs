@@ -129,6 +129,7 @@ namespace TitleCaser
             cbRemoveEmptyLines.Checked = true;
             cbRemoveDoubleSymbols.Checked = true;
             cbRemoveStartAndEndQuotes.Checked = true;
+            cbSecondPass.Checked = false;
             cbDictionaryLookup.Checked = true;
 
             SetDictionaryLookup(true);
@@ -151,6 +152,7 @@ namespace TitleCaser
                 AdditionalAbbreviations = tbAdditionalAbbr.Text,
                 ProcessCommonAbbreviations = cbCommonAbbr.Checked,
                 RemoveStartEndEndQuotes = cbRemoveStartAndEndQuotes.Checked,
+                SecondPass = cbSecondPass.Checked,
                 FormatMeasurments = cbMeasurements.Checked,
                 RemoveDoubleSymbols = cbRemoveDoubleSymbols.Checked,
                 KeepTypicalLowercase = cbTyicalLowercase.Checked,
@@ -198,6 +200,7 @@ namespace TitleCaser
                 btnLoad.InvokeRequired ||
                 cbCommonAbbr.InvokeRequired ||
                 cbRemoveStartAndEndQuotes.InvokeRequired ||
+                cbSecondPass.InvokeRequired ||
                 cbMeasurements.InvokeRequired ||
                 cbRemoveDoubleSymbols.InvokeRequired ||
                 cbDictionaryLookup.InvokeRequired ||
@@ -227,6 +230,7 @@ namespace TitleCaser
                     btnLoad.Enabled = false;
                     cbCommonAbbr.Enabled = false;
                     cbRemoveStartAndEndQuotes.Enabled = false;
+                    cbSecondPass.Enabled = false;
                     cbMeasurements.Enabled = false;
                     cbRemoveDoubleSymbols.Enabled = false;
                     cbTyicalLowercase.Enabled = false;
@@ -248,6 +252,7 @@ namespace TitleCaser
                     cbCommonAbbr.Enabled = true;
                     btnLoad.Enabled = true;
                     cbRemoveStartAndEndQuotes.Enabled = true;
+                    cbSecondPass.Enabled = true;
                     cbMeasurements.Enabled = true;
                     cbRemoveDoubleSymbols.Enabled = true;
                     cbTyicalLowercase.Enabled = true;
@@ -445,6 +450,7 @@ namespace TitleCaser
                         tbAdditionalAbbr.Text = config.AdditionalAbbreviations;
                         cbCommonAbbr.Checked = config.ProcessCommonAbbreviations;
                         cbRemoveStartAndEndQuotes.Checked = config.RemoveStartEndEndQuotes;
+                        cbSecondPass.Checked = config.SecondPass;
                         cbMeasurements.Checked = config.FormatMeasurments;
                         cbRemoveDoubleSymbols.Checked = config.RemoveDoubleSymbols;
                         cbTyicalLowercase.Checked = config.KeepTypicalLowercase;
@@ -496,6 +502,7 @@ namespace TitleCaser
             string additionalAbbreviations = tbAdditionalAbbr.Text.Trim();
             bool lookupCommonAbbreviations = cbCommonAbbr.Checked;
             bool removeStartAndEndQuotes = cbRemoveStartAndEndQuotes.Checked;
+            bool secondPass = cbSecondPass.Checked;
             bool formatMeasurements = cbMeasurements.Checked;
             bool keepTypicalLowercaseWords = cbTyicalLowercase.Checked;
             bool removeDoubleSymbols = cbRemoveDoubleSymbols.Checked;
@@ -523,6 +530,7 @@ namespace TitleCaser
                     LookupCommonAbbreviations = lookupCommonAbbreviations,
                     KeepTypicalAllLowers = keepTypicalLowercaseWords,
                     FormatMeasurements = formatMeasurements,
+                    SecondPassWords = secondPass,
                     RemoveStartEndQuotesOnClean = removeStartAndEndQuotes,
                     RemoveDoubleSymbolsOnClean = removeStartAndEndQuotes,
                     MaxDictionaryLookupWordLength = maxDictionaryLookupLetters,
